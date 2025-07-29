@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <h1 class="mt-5 mb-4">Liste des catégories</h1>
+    {% include 'layouts/flash_message.html.twig' %}
+
+    <table class='table-borderless'>
+        <tr>
+            <th>Nom de la catégorie</th>
+            <th>Action</th>
+        </tr>
+        {% for category in categories %}
+            <tr>
+                <td>
+                {{ category.name }}
+                </td>
+                <td>
+                    <a href="{{ path('app_category_update', {'id':category.id }) }}">Modifier</a>
+                </td>
+            </tr>
+            {% else %}
+                <p>Aucune catégorie à afficher</p>
+            {% endfor %}
+    </table> 
+{% endblock %}
