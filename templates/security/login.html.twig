@@ -3,7 +3,8 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
+{# <div class="container">
+<form method="post" class="loginForm w-400">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -12,14 +13,14 @@
             <div class="mb-3">
                 You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
-        {% endif %}
+        {% endif %} #}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        {# <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="username">Email</label>
         <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
         <label for="password">Password</label>
         <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}"> #}
 
         {#
             Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -31,8 +32,56 @@
             </div>
         #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
+         {# <button class="btn btn-lg btn-primary" type="submit">
             Sign in
         </button>
     </form>
-{% endblock %}
+</div> #}
+
+{#   Formulaire    #}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Connexion</h2>
+
+                    {% if error %}
+                        <div class="alert alert-danger text-center">
+                            Identifiants invalides.
+                        </div>
+                    {% endif %}
+
+                    <form method="post form loginForm">
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">Email</label>
+                            <input type="email" name="email" id="inputEmail" class="form-control" required value="{{ last_username }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-dark" type="submit">Se connecter</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="{{ path('app_register') }}">Créer un compte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %} 
+
+
+
+
+
+

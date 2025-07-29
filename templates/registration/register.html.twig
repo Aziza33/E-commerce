@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
-
+    <h1>Register</h1> #}
+{# 
     {{ form_errors(registrationForm) }}
 
         <div class="mb-3 text-start">
@@ -25,4 +25,64 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+{% endblock %} #}
+
+{#   formulaire registration #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    {# <h1 class="text-center">Inscription</h1> #}
+<div class="form-register text-center w-100">
+    <h2 class="text-center mb-4">Créer un compte</h2>
+    {# Affichage Erreur en 3 étapes 1/ UniqueEntity ds le l'Entity Users.php 2/ on rajoute le code ci-dessous #}
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        
+           <div class="mb-3 text-start">
+        {{ form_label(registrationForm.firstname, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control rounded-3'}}) }}
+        </div>
+        <div class="mb-3 text-start">
+        {{ form_label(registrationForm.lastname, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(registrationForm.lastname, {'attr': {'class': 'form-control rounded-3'}}) }}
+    </div>      
+        
+    <div class="mb-3 text-start">
+        {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control rounded-3'}}) }}
+    </div>
+    {# 3/ Essai affichage message mail existe déjà  #}
+    {% for error in registrationForm.email.vars.errors %}
+                <div class="text-danger small">{{ error.message }}</div>
+            {% endfor %}
+
+    <div class="mb-3">
+    <label for="registration_form_plainPassword_first" class="form-label text-start w-100">Mot de passe</label>
+    {{ form_widget(registrationForm.plainPassword.first, {
+        'attr': {'class': 'form-control'}
+    }) }}
+    </div>
+
+    <div class="mb-3">
+    <label for="registration_form_plainPassword_second" class="form-label text-start w-100">Confirmer le mot de passe</label>
+    {{ form_widget(registrationForm.plainPassword.second, {
+        'attr': {'class': 'form-control'}
+    }) }}
+    </div>
+
+    <div class="form-check mb-3 text-start">
+        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+        {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+    </div>
+
+    <button type="submit" class="btn btn-dark w-100 rounded-3 py-2">S’inscrire</button>
+    {{ form_end(registrationForm) }}
+    
+
+</div>
+    
 {% endblock %}
