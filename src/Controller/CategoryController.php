@@ -27,18 +27,29 @@ final class CategoryController extends AbstractController
 
     #[Route('/admin/category/new', name: 'app_category_new')]
     public function addCategory(EntityManagerInterface $entityManager, Request $request): Response
+
+    // Méthode du contrôle qui gère la création d'une nouvelle catégorie
+    // Elle a pour paramètre le gestionnaire d'entité pour la bdd et la requête HTTP, elle renvoie une réponse
     {
         $category = new Category();
+        //Création d'une nouvelle instance de l'entity Catégorie
+
         $form = $this->createForm(CategoryFormType::class, $category);
+        // Création d'un formulaire basé sur la classe CategoryFormType lié à l'objet category
         $form -> handleRequest($request);
+        // Traite les données envoyées dans la requête pour remplir le formulaire
         
         if ($form->isSubmitted() && $form->isValid()){
+            // prépare l'objet category a être envoyé en bdd
             $entityManager->persist($category);
+            // Execute la requête d'insertion en bdd et sauvegarde ces infos en bdd
             $entityManager->flush();   
             $this->addFlash('success', 'La catégorie a bien été ajoutée.');
+            // redirige vers la route précisée ds le code
               return $this->redirectToRoute('app_category'); 
         }
         return $this->render('category/newCategory.html.twig', [
+            // affiche le formulaire s'il est soumis et valide
             'form' => $form->createView(),             
         ]);
     }
