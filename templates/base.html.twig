@@ -16,71 +16,17 @@
 {# {% include 'navbar/navbar.html.twig' %} #}
 {# Navbar  #}
 
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #001D27;">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ path('app_home_page') }}">
-        {# <img src="{{ asset('') }}" alt="Logo" width="120" height="70"> #}
-    </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_home_page') }}">Accueil</a>
-        </li>
-
-        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-          <li class="nav-item">
-            {# <a class="nav-link text-white" href="{{ path('app_dashboard_admin') }}">Dashboard Admin</a> #}
-          </li>
-        {% endif %}
-
-        {% if app.user %}
-          <li class="nav-item">
-            {# <a class="nav-link text-white" href="{{ path('app_dashboard_user') }}">Mon Compte</a> #}
-          </li>
-        {% endif %}
-
-        <!-- Dropdown MES COURS -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarCours" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Mes commandes
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarCours">
-            {# <li><a class="dropdown-item" href="{{ path('') }}">x</a></li> #}
-            {# <li><a class="dropdown-item" href="{{ path('') }}">x</a></li> #}
-
-          </ul>
-        </li>
-
-        {% if app.user %}
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ path('app_logout') }}">Déconnexion</a>
-          </li>
-          <li class="nav-item d-flex align-items-center text-white ms-2">
-            <span style="width: 10px; height: 10px; background-color: green; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
-            Connecté(e) : <strong class="ms-1">{{ app.user.firstname }}</strong>
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-              <span class="badge bg-warning text-dark ms-2">Admin</span>
-            {% endif %}
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>
-          </li>
-        {% endif %}
-
-      </ul>
-    </div>
-  </div>
-</nav>
 </head>
+
 <body>
-        {% block body %}{% endblock %}
+
+{% block nav %}
+ {% include 'layouts/navbar.html.twig' %}
+{% endblock %}
+        {% block body %}
+        
+        {% endblock %}
          <footer style="background-color: #001D27" class=" text-white text-center py-3">
         &copy; {{ "now"|date("Y") }} - AAL. Tous droits réservés.
     </footer>

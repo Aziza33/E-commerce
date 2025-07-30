@@ -25,7 +25,7 @@ final class CategoryController extends AbstractController
     }
 // ...................   AJOUTER   .........................................
 
-    #[Route('/category/new', name: 'app_category_new')]
+    #[Route('/admin/category/new', name: 'app_category_new')]
     public function addCategory(EntityManagerInterface $entityManager, Request $request): Response
     {
         $category = new Category();
@@ -44,7 +44,7 @@ final class CategoryController extends AbstractController
     }
 
     //  ................  UPDATE  ..........................................
-      #[Route('/category/update/{id}', name: 'app_category_update')]
+      #[Route('/admin/category/update/{id}', name: 'app_category_update')]
 
     public function updateCategory($id, Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
@@ -70,7 +70,7 @@ final class CategoryController extends AbstractController
     //  ................  DELETE  ..........................................
 
 
-    #[Route('/category/delete/{id}', name: 'app_category_delete')]
+    #[Route('/admin/category/delete/{id}', name: 'app_category_delete')]
     public function deleteCategory(Category $category, EntityManagerInterface $entityManager): Response
     {
         // $crud = $entityManager->getRepository(Category::class)->find($id);       
