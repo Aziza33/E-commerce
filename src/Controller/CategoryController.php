@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'app_category')]
+    #[Route('/admin/category', name: 'app_category')]
     public function index(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
@@ -35,7 +35,7 @@ final class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $entityManager->persist($category);
             $entityManager->flush();   
-            $this->addFlash('success', 'Votre catégorie a bien été ajoutée');
+            $this->addFlash('success', 'La catégorie a bien été ajoutée.');
               return $this->redirectToRoute('app_category'); 
         }
         return $this->render('category/newCategory.html.twig', [
@@ -59,7 +59,7 @@ final class CategoryController extends AbstractController
          if ($form->isSubmitted() && $form->isValid()){
             $entityManager->persist($crud); // on persiste
             $entityManager->flush();   // on execute la mise à jour
-            $this->addFlash('success', 'La catégorie a été modifiée'); 
+            $this->addFlash('success', 'La catégorie a bien été modifiée.'); 
             return $this->redirectToRoute('app_category'); 
     }
     return $this->render('category/updateCategory.html.twig', [
@@ -77,7 +77,7 @@ final class CategoryController extends AbstractController
         $entityManager->remove($category);
         $entityManager->flush();   
         // $this->addFlash('notice', 'Suppression effectuée');
-        $this->addFlash('danger', 'La catégorie a été supprimée.');
+        $this->addFlash('danger', 'La catégorie a bien été supprimée.');
         
             return $this->redirectToRoute('app_category'); 
         }

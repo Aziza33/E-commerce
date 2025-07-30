@@ -63,7 +63,7 @@
           </li>
           <li class="nav-item d-flex align-items-center text-white ms-2">
             <span style="width: 10px; height: 10px; background-color: green; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>
-            Connecté(e) : <strong class="ms-1">{{ app.user.prenom }}</strong>
+            Connecté(e) : <strong class="ms-1">{{ app.user.firstname }}</strong>
             {% if 'ROLE_ADMIN' in app.user.roles %}
               <span class="badge bg-warning text-dark ms-2">Admin</span>
             {% endif %}

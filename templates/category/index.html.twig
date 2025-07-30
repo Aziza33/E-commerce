@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 {% block body %}
 
     <h1 class="mt-5 mb-4">Liste des catégories</h1>
@@ -22,4 +22,64 @@
                 <p>Aucune catégorie à afficher</p>
             {% endfor %}
     </table> 
+{% endblock %} #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+    
+    <!-- Titre -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-primary">
+            <i class="bi bi-folder2-open"></i> Liste des catégories
+        </h1>
+        <a href="{{ path('app_category_new') }}" class="btn btn-success shadow-sm">
+            <i class="bi bi-plus-circle"></i> Ajouter une catégorie
+        </a>
+    </div>
+
+    <!-- Messages flash -->
+    {% include 'layouts/flash_message.html.twig' %}
+
+    <!-- Tableau -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+            {% if categories is not empty %}
+                <table class="table align-middle table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Nom de la catégorie</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td class="fw-medium">
+                                    {{ category.name }}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ path('app_category_update', {'id': category.id}) }}" 
+                                       class="btn btn-outline-primary btn-sm me-2">
+                                        <i class="bi bi-pencil-square"></i> Modifier
+                                    </a>
+                                    <a href="{{ path('app_category_delete', {'id': category.id}) }}" 
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');">
+                                        <i class="bi bi-trash"></i> Supprimer
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-info text-center mb-0">
+                    <i class="bi bi-info-circle"></i> Aucune catégorie à afficher.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
