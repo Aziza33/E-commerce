@@ -69,6 +69,7 @@ final class UserController extends AbstractController
     #[Route('/user/delete/{id}', name: 'app_user_delete')]
     #[isGranted("ROLE_ADMIN")]
     public function deleteUser(EntityManagerInterface $entityManager, $id): Response
+    // refaire avec userRepository $user
     {
         // on récupère l'id
         $crud = $entityManager->getRepository(User::class)->find($id);
