@@ -1,8 +1,7 @@
 {{ form_start(form) }}
-<label for="">Nom de la sous catégorie</label>
-    {{ form_widget(form.name), {attr:{'class': 'form form-control'}} }}
-<label for="">Catégorie</label>
-    {{ form_widget(form.category), {attr:{'class': 'form form-control'}} }}
-
-    <button class="btn btn-outline-primary">{{ button_label|default('Save') }}</button>
+<label for="">Name of the subcategory</label>
+    {{ form_widget(form.name, {'attr':{'class':'form form-control mb-2 mt-1', 'placeholder': "name"}}) }}
+    <label for="">Category</label>
+    {{ form_widget(form.category, {'attr':{'class':'form form-control mb-2 mt-1'}}) }}
+    <button class="btn btn-block btn-l btn-primary mt-3 d-flex ms-auto">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
