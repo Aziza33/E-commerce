@@ -137,15 +137,47 @@ final class ProductController extends AbstractController
 #region ADD HISTORY STOCK
 
 
-    #[Route('/add/product/{id}', name: 'app_product_stock_add', methods: ['POST'])]
-     public function stockAdd($id, EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/add/product/{id}/stock', name: 'app_product_stock_add', methods: ['GET', 'POST'])]
+    // #[isGranted("ROLE_ADMIN")]
+     public function stockAdd($id, ProductRepository $productRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $stockAdd = new AddProductHistory();
         $form = $this->createForm(AddProductHistoryType::class, $stockAdd);
         $form->handleRequest($request);
+        $product = $productRepository->find($id);
+        if ($form->isSubmitted() && $form->isValid()){
 
+            if($stockAdd->getQuantity()>0){
+                $newQuantity = $product->getStock() + $stockAdd->getQuantity();
+                $product->setStock($newQuantity);
+
+                $stockAdd->setCreatedAt(new DateTimeImmutable());
+                 $stockAdd->setProduct($product);
+                $entityManager->persist($stockAdd);
+                $entityManager->flush();
+               
+                $this->addFlash('success', 'Le stock du produit a bien été mis à jour !');                        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                $this->addFlash('danger', 'Le stock du produit ne doit pas être inférieur à zéro.');
+                return $this->redirectToRoute('app_product_stock_add', ['id'=>$product->getId()]);
+            }
+            // if($stockAdd->getQuantity()>0){
+            //     $newQuantity = $product->getStock() + $stockAdd->getQuantity();
+            //     $product->setStock($newQuantity);
+
+            //     $stockAdd->setCreatedAt(new DateTimeImmutable());
+            //     $stockAdd->setProduct($product);
+            //     $entityManager->persist($stockAdd);
+            //     $entityManager->flush();
+            }
+        
+       
+       
         return $this->render('product/addStock.html.twig',
-        ['form'=>$form->createView()]
+        ['form'=>$form->createView(),
+          'product' => $product,
+        ]
         );
 
         // return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
