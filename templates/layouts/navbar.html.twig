@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+{# <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
   <div class="container">
     <a class="navbar-brand" href="#">Nooriba Marrakesh</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,13 @@
                     <ul class="dropdown-menu">
                         {% for category in categories %}
                             <li><a class="dropdown-item" href="#">{{ category.name }}</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            {# {% for subCategory in category.subCategories %}
+                            {# <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link">Log out</a> #}
+                    {# <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Subcategories</a></li>
+                   </li>
+                  {% endfor %} #}
+               
+                            {# <li><hr class="dropdown-divider"></li>
                         {% endfor %}
                     </ul>
                 </li> 
@@ -33,6 +39,12 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}" >Subcategories</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Add a subcategory</a></li>
+                        {% if subCategories is defined %}
+                        {% for subCategory in category.subCategories %}
+                        <li><a class="dropdown-item" href="{{ path('app_home_product_filter', {'id':subCategory.id}) }}">{{ subCategory.name }}</a></li>
+                        {% endfor %}
+                        {% endif %}
+
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{path('app_product_index')}}">Products</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Add a product</a></li>
@@ -40,17 +52,13 @@
                         <li><a class="dropdown-item" href="{{ path('app_user') }}">User</a></li>
                     </ul>
                 </li>
-                {# <li class="nav-item">
-                    <a href="{{ path('app_logout') }}" class="nav-link">Log out</a>
-                    <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Subcategories</a></li>
-
-                </li> #}
+                
             {% endif %}
             
                 {# <li class="nav-item">
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li> #}
-            {% if app.user %}
+            {# {% if app.user %}
           <li class="nav-item">
             <a class="nav-link text-white" href="{{ path('app_logout') }}">Log out</a>
           </li>
@@ -75,4 +83,130 @@
         </form>
         </div>
     </div>
+</nav>  #}
+<style>
+/* Style des sous-menus */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -5px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* Hover pour desktop */
+@media (min-width: 992px) {
+  .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Sur mobile, sous-menus empilés */
+@media (max-width: 991px) {
+  .dropdown-submenu > .dropdown-menu {
+    position: relative;
+    left: 0;
+    margin-left: 15px;
+  }
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold" href="{{ path('app_home_page') }}">Nooriba Marrakesh</a>
+
+    <!-- Bouton Burger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenu -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto">
+
+        <!-- Lien Home -->
+        <li class="nav-item">
+          <a class="nav-link active" href="{{ path('app_home_page') }}">Home</a>
+        </li>
+
+        <!-- Menu Catégories -->
+        {% if categories is defined %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              Catégories
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+              {% for category in categories %}
+                <li class="dropdown-submenu position-relative">
+                  <a class="dropdown-item dropdown-toggle" href="#">
+                    {{ category.name }}
+                  </a>
+                  {% if category.subCategories|length > 0 %}
+                    <ul class="dropdown-menu">
+                      {% for sub in category.subCategories %}
+                        <li>
+                          <a class="dropdown-item" href="{{ path('app_home_product_filter', {'id': sub.id}) }}">
+                            {{ sub.name }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+
+        <!-- Admin -->
+        {% if is_granted("ROLE_ADMIN") %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ path('app_category') }}">Categories</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_category_new') }}">Add a Category</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Subcategories</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Add a subcategory</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Products</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Add a product</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_user') }}">User</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+
+      <!-- Droite : Connexion / Déconnexion -->
+      <ul class="navbar-nav ms-auto">
+        {% if app.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_logout') }}">Log out</a>
+          </li>
+          <li class="nav-item d-flex align-items-center text-white ms-2">
+            <span class="badge bg-success me-1">&bull;</span>
+            Connecté(e) : <strong class="ms-1">{{ app.user.firstname }}</strong>
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+              <span class="badge bg-warning text-dark ms-2">Admin</span>
+            {% endif %}
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
 </nav>
+

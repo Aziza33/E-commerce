@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\AddProductHistory;
-use App\Entity\Product;
-use App\Form\AddProductHistoryType;
-use App\Form\ProductType;
-use App\Repository\ProductRepository;
 use DateTimeImmutable;
+use App\Entity\Product;
+use App\Form\ProductType;
+use App\Entity\AddProductHistory;
+use App\Form\AddProductHistoryType;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\AddProductHistoryRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,17 +94,33 @@ final class ProductController extends AbstractController
             'product' => $product,
         ]);
     }
-#end REGION
+#endREGION
 #region EDIT
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     // #[IsGranted("ROLE_ADMIN")]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+                if ($image){
+                    $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeImageName = $slugger->slug($originalName);
+                    $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();
+
+                        try {
+                            $image->move
+                            ($this->getParameter('image_directory'),
+                            $newFileImageName);
+                        } catch (FileException $exception) {
+                            // message le cas échéant
+                        }
+                        $product->setImage($newFileImageName);
+                }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Le produit a bien été mis à jour !');
@@ -116,7 +133,7 @@ final class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
-    #endregion
+#endregion EDIT
 #region DELETE
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
@@ -134,10 +151,9 @@ final class ProductController extends AbstractController
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
 #endregion
-#region ADD HISTORY STOCK
+#region ADD STOCK
 
-
-    #[Route('/add/product/{id}/stock', name: 'app_product_stock_add', methods: ['GET', 'POST'])]
+    #[Route('/add/product/{id}', name: 'app_product_stock_add', methods: ['GET', 'POST'])]
     // #[isGranted("ROLE_ADMIN")]
      public function stockAdd($id, ProductRepository $productRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -146,13 +162,13 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
         $product = $productRepository->find($id);
         if ($form->isSubmitted() && $form->isValid()){
-
-            if($stockAdd->getQuantity()>0){
-                $newQuantity = $product->getStock() + $stockAdd->getQuantity();
+            
+            if($stockAdd->getQuantity()>0){  // si stock > 0
+                $newQuantity = $product->getStock() + $stockAdd->getQuantity(); // on additionne le stock existant au stock ajouté
                 $product->setStock($newQuantity);
 
                 $stockAdd->setCreatedAt(new DateTimeImmutable());
-                 $stockAdd->setProduct($product);
+                $stockAdd->setProduct($product);
                 $entityManager->persist($stockAdd);
                 $entityManager->flush();
                
@@ -162,26 +178,42 @@ final class ProductController extends AbstractController
                 $this->addFlash('danger', 'Le stock du produit ne doit pas être inférieur à zéro.');
                 return $this->redirectToRoute('app_product_stock_add', ['id'=>$product->getId()]);
             }
-            // if($stockAdd->getQuantity()>0){
-            //     $newQuantity = $product->getStock() + $stockAdd->getQuantity();
-            //     $product->setStock($newQuantity);
-
-            //     $stockAdd->setCreatedAt(new DateTimeImmutable());
-            //     $stockAdd->setProduct($product);
-            //     $entityManager->persist($stockAdd);
-            //     $entityManager->flush();
-            }
         
-       
-       
-        return $this->render('product/addStock.html.twig',
-        ['form'=>$form->createView(),
-          'product' => $product,
-        ]
-        );
-
+            }
+              
+            return $this->render('product/addStock.html.twig',
+                ['form'=>$form->createView(),
+                'product' => $product,
+                ]
+            );
         // return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
-
-
     }
+
+#region Show HISTORY
+    #[Route('/add/product/{id}/stock/history', name: 'app_product_stock_add_history', methods: ['GET'])]
+    public function showHistoryProductStock($id, ProductRepository $productRepository, AddProductHistoryRepository $addProductHistoryRepository): Response
+    {
+        $product = $productRepository->find($id); // on récupère le produit passé en paramètre
+        $productAddHistory = $addProductHistoryRepository->findBy(['product'=>$product], ['id'=>'DESC']);
+
+    return $this->render('product/addHistoryStockShow.html.twig',
+        [ 'productsAdded' => $productAddHistory,
+          'product' => $product
+        ]);
+    }
+
+#endRegion
+// #region AFFICHER TOUT
+// #[Route('/', name: 'app_product_list', methods: ['GET'])]
+// public function list(ProductRepository $productRepository): Response
+// {
+//     // On récupère tous les produits
+//     $products = $productRepository->findAll();
+
+//     // On les envoie à la vue
+//     return $this->render('product/list.html.twig', [
+//         'products' => $products,
+//     ]);
+// }
+
 }

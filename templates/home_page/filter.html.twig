@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits dans "{{ subCategory.name }}"{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .product-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .product-img {
+        height: 250px;
+        object-fit: cover;
+    }
+    .product-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #bfa05a; /* Doré luxe */
+    }
+    .product-price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #bfa05a; /* Doré luxe */
+    }
+    .product-description {
+        font-size: 0.9rem;
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <!-- Fil d'Ariane -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_home_page') }}">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ subCategory.name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Titre -->
+    <h1 class="text-center mb-5 fw-bold" style="color: #bfa05a;">
+        Produits dans "{{ subCategory.name }}"
+    </h1>
+
+    <!-- Liste des produits -->
+    <div class="row g-4">
+        {% for product in products %}
+            <div class="col-md-4 col-sm-6">
+                <div class="card product-card h-100">
+
+                    {% if product.image %}
+                        <img src="{{ asset('uploads/images/' ~ product.image) }}" class="product-img card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x200" class="product-img card-img-top" alt="Image indisponible">
+                    {% endif %}
+
+                    <div class="card-body d-flex flex-column text-center">
+                        <!-- Nom du produit -->
+                        <h4 class="product-title mb-2">{{ product.name }}</h4>
+
+                        <!-- Description -->
+                        <p class="product-description mb-3">
+                            {{ product.description|slice(0, 80) }}...
+                        </p>
+
+                        <!-- Prix -->
+                        <div class="mt-auto">
+                            <p class="product-price">{{ product.price }} €</p>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white border-0 text-center pb-3">
+                        <a href="{{ path('app_home_product_show', {id: product.id}) }}" class="btn btn-dark btn-sm me-2">
+                            Voir détails
+                        </a>
+                        <a href="#" class="btn btn-outline-success btn-sm">
+                            Ajouter au panier
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center">Aucun produit disponible dans cette sous-catégorie.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

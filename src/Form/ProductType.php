@@ -26,7 +26,7 @@ class ProductType extends AbstractType
             'mapped'=> false,
             'required'=>false,
             'constraints'=>[
-                new File([
+                new File([ // Symfony\Component\Validator\Constraints\File
                     'maxSize'=>'1024k',
                     'mimeTypes'=>[
                         'image/jpeg',
@@ -34,6 +34,7 @@ class ProductType extends AbstractType
                         'image/jpg',
                         'image/webp',
                     ],
+                    'maxSizeMessage' => 'La taille maximale de l\'image ne doit pas dépasser 1024k',
                     'mimeTypesMessage'=> 'Veuillez choisir un fichier de type image valide (jpeg, png, jpg)',
                 ])
             ]
