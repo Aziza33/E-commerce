@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\SubCategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,30 +15,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page', methods: ('GET'))]
-    public function index($subCategories, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
-    {
+    public function index(SubCategoryRepository $subCategoryRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator): Response
+    {   
+        $data = $productRepository->findBy([],['id'=>"DESC"]);
+        $products = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1), // met en place la pagination
+            8 // je choisis 8 articles par page
+        );
+
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
-            'products'=>$productRepository->findAll(),
+            'products'=>$products,
+            // 'products'=>$productRepository->findAll(),
             'categories'=>$categoryRepository->findAll(),
-            'subCategories'=>$subCategories
+            'subCategories'=>$subCategoryRepository->findAll()
             
         ]);
     }
 
 
-     #[Route('/', name: 'app_home_page', methods: ['GET'])]
-    public function afficherTout(ProductRepository $productRepository): Response
-    {
-        // Récupérer tous les produits
-        // $products = $productRepository->findAll();
 
-        // Envoyer à la vue
-        return $this->render('home_page/index.html.twig', [
-            'products'=>$productRepository->findAll(),
-            // 'products' => $products,
-        ]);
-    }
+
+    //  #[Route('/', name: 'app_home_page', methods: ['GET'])]
+    // public function afficherTout(ProductRepository $productRepository): Response
+    // {
+    //     // Récupérer tous les produits
+    //     // $products = $productRepository->findAll();
+
+    //     // Envoyer à la vue
+    //     return $this->render('home_page/index.html.twig', [
+    //         'products'=>$productRepository->findAll(),
+    //         // 'products' => $products,
+    //     ]);
+    // }
 
       #[Route('/product/{id}/show', name: 'app_home_product_show', methods: ['GET'])]
     public function showProduct(Product $product, ProductRepository $productRepository): Response

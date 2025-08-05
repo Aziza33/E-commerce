@@ -9,7 +9,7 @@
         .hero {
             position: relative;
             /* background: url('https://images.unsplash.com/photo-1585386959984-a41552231693') center/cover no-repeat; */
-            background-image: url('{{ asset('uploads/images/PhotoV58Facade.jpg') }}');
+            background-image: url('{{ asset('uploads/images/hero-desktop.jpg') }}');
             background-repeat : no-repeat;
             background-size : cover;
             
@@ -98,9 +98,9 @@
 <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <h1 class="hero-title">Villa 58 Nooriba Marrakesh</h1>
+        <h1 class="hero-title">Villa avec piscine à Marrakech</h1>
         
-        <p class="hero-subtitle">Un cadre d'exception et une sélection raffinée de produits du terroir marocain</p>
+        <p class="hero-subtitle">Un cadre d'exception et une sélection raffinée de produits locaux</p>
         <a href="#products" class="btn btn-light btn-lg" style="border-radius: 50px; padding: 10px 25px; font-weight: bold;">
             Voir nos produits
         </a>
@@ -136,6 +136,6 @@
             <p class="text-center">Aucun produit disponible.</p>
         {% endfor %}
     </div>
+    {{ knp_pagination_render(products, 'layouts/paginator.html.twig') }}
 </div>
-
 {% endblock %}

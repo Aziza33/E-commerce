@@ -8,3 +8,13 @@ import './bootstrap.js';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+// ............  SCROLL NAVBAR  ..........................
+// document.addEventListener("scroll", function () {
+//     const navbar = document.querySelector(".custom-navbar");
+//     if (window.scrollY > 50) {
+//         navbar.classList.add("scrolled");
+//     } else {
+//         navbar.classList.remove("scrolled");
+//     }
+// });
