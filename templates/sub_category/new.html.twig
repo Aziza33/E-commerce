@@ -1,11 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New SubCategory{% endblock %}
+{% block title %}Ajouter une sous-catégorie{% endblock %}
 
 {% block body %}
-    <h1>Create new SubCategory</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+            <div class="bg-white p-4 p-md-5 shadow rounded-4">
 
-    {{ include('sub_category/_form.html.twig') }}
+                <h2 class="fw-bold mb-4 text-center text-dark">Ajouter une sous-catégorie</h2>
 
-    <a href="{{ path('app_sub_category_index') }}">back to list</a>
+                {{ form_start(form) }}
+
+                <div class="mb-3">
+                    {{ form_label(form.name, 'Nom de la sous-catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.name, {
+                        'attr': {
+                            'class': 'form-control',
+                            'placeholder': ''
+                        }
+                    }) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.category, 'Catégorie principale', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.category, {
+                        'attr': {
+                            'class': 'form-select'
+                        }
+                    }) }}
+                    {{ form_errors(form.category) }}
+                </div>
+
+                <div class="d-flex justify-content-between mt-4 flex-column flex-md-row gap-2">
+                    <a href="{{ path('app_sub_category_index') }}" class="btn btn-outline-secondary w-100 w-md-auto">
+                        Retour
+                    </a>
+                    <button type="submit" class="btn btn-outline-dark w-100 w-md-auto">
+                        Sauvegarder
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

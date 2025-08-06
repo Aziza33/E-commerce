@@ -1,29 +1,3 @@
-{# {% extends 'base.html.twig' %}
-{% block body %}
-
-    <h1 class="mt-5 mb-4">Liste des catégories</h1>
-    {% include 'layouts/flash_message.html.twig' %}
-
-    <table class='table-borderless'>
-        <tr>
-            <th>Nom de la catégorie</th>
-            <th>Action</th>
-        </tr>
-        {% for category in categories %}
-            <tr>
-                <td>
-                {{ category.name }}
-                </td>
-                <td>
-                    <a href="{{ path('app_category_update', {'id':category.id }) }}">Modifier</a>
-                </td>
-            </tr>
-            {% else %}
-                <p>Aucune catégorie à afficher</p>
-            {% endfor %}
-    </table> 
-{% endblock %} #}
-
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -31,10 +5,10 @@
     
     <!-- Titre -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold text-primary">
-            <i class="bi bi-folder2-open"></i> Liste des catégories
+        <h1 class="fw-bold text-dark">
+            <i class="bi bi-folder2-open">Liste des catégories</i> 
         </h1>
-        <a href="{{ path('app_category_new') }}" class="btn btn-success shadow-sm">
+        <a href="{{ path('app_category_new') }}" class="btn btn-outline-success shadow-sm">
             <i class="bi bi-plus-circle"></i> Ajouter une catégorie
         </a>
     </div>
@@ -62,12 +36,12 @@
                                 <td class="text-end">
                                     <a href="{{ path('app_category_update', {'id': category.id}) }}" 
                                        class="btn btn-outline-primary btn-sm me-2">
-                                        <i class="bi bi-pencil-square"></i> Modifier
+                                        <i class="bi bi-pencil-square">Modifier</i> 
                                     </a>
                                     <a href="{{ path('app_category_delete', {'id': category.id}) }}" 
                                        class="btn btn-outline-danger btn-sm"
                                        onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');">
-                                        <i class="bi bi-trash"></i> Supprimer
+                                        <i class="bi bi-trash">Supprimer</i> 
                                     </a>
                                 </td>
                             </tr>

@@ -1,17 +1,3 @@
-{# {% extends 'base.html.twig' %}
-{% block body %}
-<div class="container">
-    <div class="form">
-    <h2>Ajouter une catégorie</h2>
-    {{ form_start(form) }}
-        {{ form_row(form.name, {'attr':{'class':'form form-control'}}) }}
-        <input type="submit" value='sauvegarder' class='btn btn-primary mt-4'>
-    {{ form_end(form) }}
-    </div>
-</div>
-    
-{% endblock %} #}
-
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -20,7 +6,7 @@
         <div class="card-body p-4">
             
             <!-- Titre -->
-            <h2 class="fw-bold text-primary mb-4">
+            <h2 class="fw-bold text-dark mb-4">
                 <i class="bi bi-plus-circle"></i> Ajouter une catégorie
             </h2>
 
@@ -36,8 +22,8 @@
                     <a href="{{ path('app_category') }}" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left"></i> Retour
                     </a>
-                    <button type="submit" class="btn btn-primary shadow-sm">
-                        <i class="bi bi-save"></i> Sauvegarder
+                    <button type="submit" class="btn btn-outline-dark shadow-sm">
+                        <i class="bi bi-save">Sauvegarder</i> 
                     </button>
                 </div>
             {{ form_end(form) }}

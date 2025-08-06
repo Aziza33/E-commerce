@@ -3,5 +3,5 @@
     {{ form_widget(form.name, {'attr':{'class':'form form-control mb-2 mt-1', 'placeholder': "name"}}) }}
     <label for="">Category</label>
     {{ form_widget(form.category, {'attr':{'class':'form form-control mb-2 mt-1'}}) }}
-    <button class="btn btn-block btn-l btn-primary mt-3 d-flex ms-auto">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-block btn-l btn-outline-dark mt-3 d-flex ms-auto">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

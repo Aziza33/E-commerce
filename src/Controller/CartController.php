@@ -42,8 +42,8 @@ final class CartController extends AbstractController
         // retourne la vue pour afficher le panier
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
-            'item' => $cartWithData, // on retourne ces deux variables afin de la récupérer ds la vue
-            'total' => $total
+            'items' => $cartWithData, // on retourne ces deux variables afin de la récupérer ds la vue
+            'total' => $total,
         ]);
     }
 #endregion CREATION
@@ -66,8 +66,8 @@ final class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 #endregion ADD PRODUCTS
-#region REMOVE CART
-        #[Route('/cart/remove/{id}', name: 'app_cart_product_remove', methods: ['GET'])]
+#region REMOVE TO CART
+        #[Route('/cart/delete/{id}', name: 'app_cart_product_delete', methods: ['GET'])]
         public function removeToCart($id, SessionInterface $session): Response
         {
              $cart = $session->get('cart', []);
@@ -88,24 +88,17 @@ final class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
 
     }
-
-    #[Route('/cart/remove', name: 'app_cart_remove', methods: ['GET'])]
-     public function removeCart($id, SessionInterface $session): Response
+#endregion REMOVE TO CART
+#region DELETE CART
+    #[Route('/cart/delete', name: 'app_cart_delete', methods: ['GET'])]
+     public function deleteCart(SessionInterface $session): Response
         {
-             $cart = $session->get('cart', []);
-            // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
-            if (!empty($cart[$id])){
-
-                    unset($cart[$id]);
-            }
-           
-            // Met à jour le panier
-            $session->set('cart', $cart);
+             $cart = $session->remove('cart', []);            
             
             return $this->redirectToRoute('app_cart');
             }
 
         // Met à jour le panier ds la session et redirige vers la page du panier
-            
+#endregion DELETE CART          
 }
 
