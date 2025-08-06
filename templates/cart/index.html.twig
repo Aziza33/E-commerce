@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1 class="mb-4">🛒 Mon Panier</h1>
+    <h1 class="mb-4">Mon Panier</h1>
 
     {% if item is empty %}
         <div class="alert alert-warning text-center">
@@ -18,40 +18,48 @@
                     <th class="text-center">Quantité</th>
                     <th class="text-end">Prix unitaire</th>
                     <th class="text-end">Sous-total</th>
-
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for cartItem in item %}
                     <tr>
-                        <td>
-                            {{ cartItem.product.name }}
-                        </td>
+                        <td>{{ cartItem.product.name }}</td>
+                        <td class="text-center">{{ cartItem.quantity }}</td>
+                        <td class="text-end">{{ cartItem.product.price }} €</td>
+                        <td class="text-end">{{ cartItem.product.price * cartItem.quantity }} €</td>
                         <td class="text-center">
-                            {{ cartItem.quantity }}
-                        </td>
-                        <td class="text-end">
-                            {{ cartItem.product.price }} €
-                        </td>
-                        <td class="text-end">
-                            {{ cartItem.product.price * cartItem.quantity }} €
+                            <a href="{{ path('app_cart_product_remove', {'id': cartItem.product.id}) }}" 
+                               class="btn btn-sm text-danger"
+                               onclick="return confirm('Supprimer cet article du panier ?')">
+                                Supprimer
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
+
+            {% if total > 0 %}
             <tfoot class="table-light">
                 <tr>
-                    <td colspan="3" class="text-end fw-bold">Total :</td>
+                    <td colspan="4" class="text-end fw-bold">Total :</td>
                     <td class="text-end fw-bold">{{ total }} €</td>
                 </tr>
             </tfoot>
+            {% endif %}
         </table>
-    {% endif %}
 
-    <div class="mt-4">
-        <a href="{{ path('app_home_page') }}" class="btn btn-outline-primary">
-            Continuer mes achats
-        </a>
-    </div>
+        <!-- Boutons de gestion -->
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{{ path('app_home_page') }}" class="btn btn-outline-primary">
+                Continuer mes achats
+            </a>
+            <a href="{{ path('app_cart_remove') }}" 
+               class="btn btn-outline-danger"
+               onclick="return confirm('Vider complètement le panier ?')">
+                Vider le panier
+            </a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

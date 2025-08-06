@@ -371,14 +371,15 @@
                 {% endif %}
             </ul>
 
-            <!-- Connexion / Déconnexion -->
-            <div class="d-flex align-items-center gap-2 me-3">
+            <!-- Connexion / Déconnexion + Lien panier -->
+            <div class="d-flex align-items-center gap-3 me-3">
                 {% if app.user %}
                     <span class="text-white small">Bonjour, {{ app.user.firstname ?? app.user.lastname }}</span>
                     <a href="{{ path('app_logout') }}" class="btn btn-outline-light btn-sm">Déconnexion</a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
                 {% endif %}
+
             </div>
 
             <!-- Barre de recherche -->
@@ -386,6 +387,15 @@
                 <input class="form-control me-2" type="search" name="q" placeholder="Rechercher..." aria-label="Search">
                 <button class="btn btn-outline-light" type="submit">Rechercher</button>
             </form>
+                <!-- Lien discret vers le panier -->
+                <a href="{{ path('app_cart') }}" class="panierNav text-white text-decoration-none position-relative small">
+                    🛒 Panier
+                    {% if app.session and app.session.get('cart') is not empty %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ app.session.get('cart')|length }}
+                        </span>
+                    {% endif %}
+                </a>
         </div>
     </div>
 </nav>

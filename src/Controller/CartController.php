@@ -66,6 +66,46 @@ final class CartController extends AbstractController
             return $this->redirectToRoute('app_cart');
         }
 #endregion ADD PRODUCTS
+#region REMOVE CART
+        #[Route('/cart/remove/{id}', name: 'app_cart_product_remove', methods: ['GET'])]
+        public function removeToCart($id, SessionInterface $session): Response
+        {
+             $cart = $session->get('cart', []);
+            // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
+            if (!empty($cart[$id])){
+                if ($cart[$id] > 1){
+                    $cart[$id]--;
+            }else{
+                    unset($cart[$id]);
+            }
+           
+            // Met à jour le panier
+            $session->set('cart', $cart);
+            
+            }
 
+        // Met à jour le panier ds la session et redirige vers la page du panier
+            return $this->redirectToRoute('app_cart');
 
+    }
+
+    #[Route('/cart/remove', name: 'app_cart_remove', methods: ['GET'])]
+     public function removeCart($id, SessionInterface $session): Response
+        {
+             $cart = $session->get('cart', []);
+            // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
+            if (!empty($cart[$id])){
+
+                    unset($cart[$id]);
+            }
+           
+            // Met à jour le panier
+            $session->set('cart', $cart);
+            
+            return $this->redirectToRoute('app_cart');
+            }
+
+        // Met à jour le panier ds la session et redirige vers la page du panier
+            
 }
+
