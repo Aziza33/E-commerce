@@ -48,7 +48,7 @@ final class CartController extends AbstractController
     }
 #endregion CREATION
 #region ADD PRODUCTS
-        #[Route('/cart', name: 'app_cart', methods: ['GET'])]
+        #[Route('/cart/add/{id}', name: 'app_cart_add', methods: ['GET'])]
         // Définit une route pour ajouter un produit au panier
         public function addProductToCart(int $id, SessionInterface $session): Response // int veut dire type integer obligatoire, + sécurisé
         // Méthode pour ajouter un produit au panier, prend l'ID du produit et la session en paramètres

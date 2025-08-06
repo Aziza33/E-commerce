@@ -1,20 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Mon Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container mt-4">
+    <h1 class="mb-4">🛒 Mon Panier</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if item is empty %}
+        <div class="alert alert-warning text-center">
+            Votre panier est vide.
+        </div>
+    {% else %}
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Produit</th>
+                    <th class="text-center">Quantité</th>
+                    <th class="text-end">Prix unitaire</th>
+                    <th class="text-end">Sous-total</th>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/E-COMMERCE/e-commerce/src/Controller/CartController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/E-COMMERCE/e-commerce/templates/cart/index.html.twig</code></li>
-    </ul>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cartItem in item %}
+                    <tr>
+                        <td>
+                            {{ cartItem.product.name }}
+                        </td>
+                        <td class="text-center">
+                            {{ cartItem.quantity }}
+                        </td>
+                        <td class="text-end">
+                            {{ cartItem.product.price }} €
+                        </td>
+                        <td class="text-end">
+                            {{ cartItem.product.price * cartItem.quantity }} €
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot class="table-light">
+                <tr>
+                    <td colspan="3" class="text-end fw-bold">Total :</td>
+                    <td class="text-end fw-bold">{{ total }} €</td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{{ path('app_home_page') }}" class="btn btn-outline-primary">
+            Continuer mes achats
+        </a>
+    </div>
 </div>
 {% endblock %}

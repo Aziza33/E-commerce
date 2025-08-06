@@ -273,16 +273,14 @@
     </div>
 </nav> #}
 
-{# .................    NAVBAR 4  ........................... #}
-
+{# ................. NAVBAR 4 ........................... #}
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
-<!-- Logo -->
-                      <a class="navbar-brand" href="{{ path('app_home_page') }}">
-                          <img src="{{ asset('uploads/images/LOGO BEIGE XXL.png') }}" alt="Logo" class="logo-navbar">
-                      </a>
-    <div class="container">
-       
+    <!-- Logo -->
+    <a class="navbar-brand" href="{{ path('app_home_page') }}">
+        <img src="{{ asset('uploads/images/LOGO BEIGE XXL.png') }}" alt="Logo" class="logo-navbar">
+    </a>
 
+    <div class="container">
         <!-- Burger menu -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLuxury"
                 aria-controls="navbarLuxury" aria-expanded="false" aria-label="Toggle navigation">
@@ -290,10 +288,10 @@
         </button>
 
         <!-- Menu -->
-        <div class="collapse navbar-collapse justify-content-center" id="navbarLuxury">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarLuxury">
+            <ul class="navbar-nav mx-auto">
 
-                {# Menus fixes #}
+                <!-- Menu fixe La Villa -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navHebergement" role="button" data-bs-toggle="dropdown">
                         La Villa
@@ -305,20 +303,7 @@
                     </ul>
                 </li>
 
-                {# <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navRestaurants" role="button" data-bs-toggle="dropdown">
-                        Activités & excursions
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Restaurant 1</a></li>
-                        <li><a class="dropdown-item" href="#">Bar Lounge</a></li>
-                    </ul>
-                </li> #}
-                {# <li class="nav-item">
-                    <a class="nav-link" href="#">Shopping</a>
-                </li> #}
-                
-
+                <!-- Activités & excursions -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navSpa" role="button" data-bs-toggle="dropdown">
                         Activités & excursions
@@ -330,7 +315,8 @@
                         <li><a class="dropdown-item" href="#">Pour les enfants</a></li>
                     </ul>
                 </li>
-                {# Catégories dynamiques avec sous-catégories #}
+
+                <!-- Notre boutique -->
                 {% if categories is defined %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
@@ -339,29 +325,30 @@
                         </a>
                         <ul class="dropdown-menu">
                             {% for category in categories %}
-                                <li class="dropdown-submenu position-relative">
-                                    <a class="dropdown-item dropdown-toggle" href="#">
-                                        {{ category.name }}
-                                    </a>
-                                    {% if category.subCategories|length > 0 %}
-                                        <ul class="dropdown-menu">
-                                            {% for subCategory in category.subCategories %}
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                       href="{{ path('app_home_product_filter', {'id': subCategory.id}) }}">
-                                                        {{ subCategory.name }}
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
+                                <li>
+                                    <h6 class="dropdown-header">{{ category.name }}</h6>
                                 </li>
+                                {% if category.subCategories|length > 0 %}
+                                    {% for subCategory in category.subCategories %}
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ path('app_home_product_filter', {'id': subCategory.id}) }}">
+                                                {{ subCategory.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><span class="dropdown-item text-muted">Aucune sous-catégorie</span></li>
+                                {% endif %}
+                                {% if not loop.last %}
+                                    <li><hr class="dropdown-divider"></li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </li>
                 {% endif %}
 
-                {# Menu Admin #}
+                <!-- Espace Admin -->
                 {% if is_granted("ROLE_ADMIN") %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-warning" href="#" id="adminDropdown" role="button"
@@ -369,42 +356,36 @@
                             Admin
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ path('app_category') }}">Categories</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_category_new') }}">Add a Category</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_category') }}">Catégories</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_category_new') }}">Ajouter une catégorie</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Subcategories</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Add a subcategory</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Sous-catégories</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Ajouter une sous-catégorie</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Products</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Add a product</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Produits</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_user') }}">User</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
                         </ul>
                     </li>
                 {% endif %}
             </ul>
-        </div>
 
-        <!-- Connexion / Déconnexion + Bouton Réserver -->
-        <div class="d-flex align-items-center gap-2">
-            {% if app.user %}
-                <span class="text-white small">Bonjour, {{ app.user.firstname ?? app.user.lastname }}</span>
-                <a href="{{ path('app_logout') }}" class="btn btn-outline-light btn-sm">Déconnexion</a>
-            {% else %}
-                <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
-            {% endif %}
-            {# <a href="#" class="btn btn-luxury">RÉSERVEZ MAINTENANT</a> #}
-            {# ...........  BARRE DE RECHERCHE ................. #}
+            <!-- Connexion / Déconnexion -->
+            <div class="d-flex align-items-center gap-2 me-3">
+                {% if app.user %}
+                    <span class="text-white small">Bonjour, {{ app.user.firstname ?? app.user.lastname }}</span>
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light btn-sm">Déconnexion</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
+                {% endif %}
+            </div>
 
-{# <form class="d-flex me-3" role="search" action="{{ path('app_search') }}" method="get">
-    {# <input class="form-control me-2" type="search" name="q" placeholder="Rechercher..." aria-label="Search">
-    <button class="btn btn-outline-light" type="submit">Rechercher</button> #}
-<div class="ms-auto">
-    <form class="search-form d-flex" role="search">
-        <input class="form-control me-2 search-input" type="search" name="q" placeholder="Rechercher..." aria-label="Search">
-        <button class="btn search-btn" type="submit">Rechercher</button>
-    </form>
-</div>
+            <!-- Barre de recherche -->
+            <form class="d-flex" role="search" action="" method="get">
+                <input class="form-control me-2" type="search" name="q" placeholder="Rechercher..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Rechercher</button>
+            </form>
         </div>
     </div>
 </nav>
