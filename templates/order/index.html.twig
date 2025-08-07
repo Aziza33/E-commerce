@@ -16,8 +16,12 @@
             <span id="card-price">{{ total }}</span>
         </h3>
          <span>Frais de livraison</span>
-
-        </span>
+         {# cours Symfony #}
+         <h3>
+         <span id="shippingCost"></span>
+         €
+         </h3>
+        {# </span> #}
         </div>
     </div>
 </div>
@@ -26,6 +30,23 @@
 $(document).ready(function(){
     const citySelector =$('#order_city'); // selectionne la balise html qui a id order_city et la stocke ds const citySelector
     const cityValue = citySelector.val(); //recupère la valeur actuelle de citySelector (liste déroulante des villes) et le stocke ds la variable cityValue
+    
+    const url = `http://127.0.0.1:8000/city/${cityValue}/shipping/cost`;
+    // requête ajax
+    $.ajax({
+        url:url,
+        type:'GET',
+        success:function(response){
+            if (parseInt(newResponse.status) === 200){
+                console.log(newResponse.status)
+                $("#shippingCost").text(newResponse.content)
+            }
+
+        },
+        error:function(xhr,status,error){
+
+        }
+    })
 })
 </script>
 {% endblock %}
