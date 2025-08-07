@@ -27,25 +27,35 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>>
 <script>
-$(document).ready(function(){
-    const citySelector =$('#order_city'); // selectionne la balise html qui a id order_city et la stocke ds const citySelector
-    const cityValue = citySelector.val(); //recupère la valeur actuelle de citySelector (liste déroulante des villes) et le stocke ds la variable cityValue
-    const url = `/city/${cityValue}/shipping/cost`;
+$(document).ready(function(){ // qd la page est chargée (doc est prêt), la fonction commence à être chargée et consommée
+    const citySelector =$('#order_city'); // selectionne la balise html qui a id order_city (champs select pour choisir la ville) et la stocke ds const citySelector
+    const cityValue = citySelector.val(); //recupère la valeur actuelle de citySelector (valeur selectionnée ds liste déroulante des villes) et le stocke ds la variable cityValue
+    const url = `/city/${cityValue}/shipping/cost`; // on definit la valeur de la const url en fonction de la valeur de la ville (cityValue)
     // requête ajax
-    $.ajax({
-        url:url,
-        type:'GET',
-        success:function(response){
-            const newResponse = JSON.parse(response)
-            if (parseInt(newResponse.status) === 200){
-                $("#shippingCost").text(newResponse.content)
+    function ajaxRequest(url){  // def d'une fonction qui prend en param une url
+        
+          $.ajax({      // envoie une requête AJAX
+            url:url,    // requete url de type GET
+            type:'GET', // Le type de la requête
+            success:function(response){  // si succès 
+                const newResponse = JSON.parse(response)  // on parse le json pour le rendre exploitable en html ou en string
+                // On change
+                if (parseInt(newResponse.status) === 200){  // on vérifie si ça fonctionne, code 200
+                $("#shippingCost").text(newResponse.content) // on MAJ le contenu 
+                }
+            },
+            error:function(xhr,status,error){
             }
+        })
+    }
+    // appel de la fonction
+    ajaxRequest(url)
 
-        },
-        error:function(xhr,status,error){
-
-        }
+    citySelector.on('change', function(){  // en fonction de la ville, le contenu s'adapte
+        const urlUpdate = `/city/${$(this).val()}/shipping/cost`;
+        ajaxRequest(urlUpdate)
     })
+  
 })
 </script>
 {% endblock %}
