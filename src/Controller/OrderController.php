@@ -6,6 +6,7 @@ use App\Entity\City;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,7 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(ProductRepository $productRepository, SessionInterface $session, Request $request): Response
+    public function index(EntityManagerInterface $entityManager, ProductRepository $productRepository, 
+                            SessionInterface $session, Request $request): Response
     {
         $cart = $session->get('cart', []);   // récupére les données du panier
 

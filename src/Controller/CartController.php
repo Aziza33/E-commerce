@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\Cart;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,32 +19,12 @@ final class CartController extends AbstractController
     }
 #region CREATION DU PANIER
     #[Route('/cart', name: 'app_cart', methods: ['GET'])]
-    public function index(SessionInterface $session): Response
+    public function index(SessionInterface $session, Cart $cart): Response
     {   
-        // récupére les données du panier
-        $cart = $session->get('cart', []);
-        // initialise un tableau pour stocker les données du panier avec les informations de produits
-        $cartWithData = [];
-
-        // Boucle sur les éléments du panier pour récupérer les informations de produit
-        foreach ($cart as $id => $quantity) {
-            // récupère le produit correspondant à l'id et à la quantité
-            $cartWithData[] = [
-                'product' => $this->productRepository->find($id),
-                'quantity'=> $quantity
-            ];
-        }
-        // calcul total du panier, on mappe sur le tableau pour récupérer ts les items
-        $total = array_sum(array_map(function ($item){
-            // Pour chaque élément du panier, multiplie le prix du produit par la quantité
-             return $item['product']->getPrice() * $item['quantity'];
-        }, $cartWithData));
-            
-        // retourne la vue pour afficher le panier
+        $data = $cart->getCart($session);
         return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-            'items' => $cartWithData, // on retourne ces deux variables afin de la récupérer ds la vue
-            'total' => $total,
+            'items'=>$data['cart'],
+            'total'=>$data['total'],
         ]);
     }
 #endregion CREATION
