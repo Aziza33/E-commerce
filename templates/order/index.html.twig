@@ -9,18 +9,33 @@
             <h1 class="mt-4 mb-4">Commande</h1>
                 {{ form_start(form) }}
                     <input class="btn btn-outline-primary" type="submit" value="Continuer">
+                    {# <a href="{{ path('app_order') }}  data-turbo='false'" class="btn btn-primary">Valider</a> #}
                 {{ form_end(form) }}
+
+                {# Ajout cours Jérémie #}
         </div>
         <div class="col-4 mt-5">Montant à payer :<span class="mb-2">
-        <h3>
-            <span id="card-price">{{ total }}</span>
-        </h3>
-         <span>Frais de livraison</span>
-         {# cours Symfony #}
-         <h3>
-         <span id="shippingCost"></span>
-         €
-         </h3>
+            <h3>
+                <span id="card-price">{{ total }}</span>
+            </h3>
+                <span>Frais de livraison</span>
+                {# cours Symfony #}
+            <h3>
+                <span id="shippingCost"></span>
+                 €
+            </h3>
+                <span>Montant total à payer</span>
+             <h3>
+            <h3>
+                <span class="total-price"></span>
+                €
+            </h3>
+            </h3>
+            <h3>
+                <span id='card-price'>{{ total }}</span>
+                €
+            </h3>
+                {# <span>Frais de livraison</span> #}
         {# </span> #}
         </div>
     </div>
@@ -42,6 +57,13 @@ $(document).ready(function(){ // qd la page est chargée (doc est prêt), la fon
                 // On change
                 if (parseInt(newResponse.status) === 200){  // on vérifie si ça fonctionne, code 200
                 $("#shippingCost").text(newResponse.content) // on MAJ le contenu 
+
+                const cardPrice = parseInt($('#card-price').text());
+                const shippingCost = parseInt($('#shippingCost').text());
+                $('.total-price').text(cardPrice+shippingCost);
+
+                console.log(cardPrice)
+                console.log(shippingCost)
                 }
             },
             error:function(xhr,status,error){
