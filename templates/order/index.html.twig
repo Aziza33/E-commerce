@@ -3,13 +3,13 @@
 {% block title %}Hello OrderController!{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container pt-5">
     <div class="row">
         <div class="col-8">
-            <h1 class="mt-4 mb-4">Commande</h1>
+            <h1 class="mt-4 mb-4 pt-5">Commande</h1>
                 {{ form_start(form) }}
-                    {# <input class="btn btn-outline-primary" type="submit" value="Continuer"> #}
-                    <a href="{{ path('app_order') }}" class="btn btn-primary">Valider</a>
+                    <input class="btn btn-outline-primary" type="submit" value="Valider">
+                    {# <a href="{{ path('app_order') }}" class="btn btn-primary">Valider</a> #}
                 {{ form_end(form) }}
 
                 {# Ajout cours Jérémie #}
@@ -32,8 +32,9 @@
             </h3>
             </h3>
             <h3>
-                <span id='card-price'>{{ total }}</span>
-                €
+            {# Fait doublon avec le total price calculé via la requête ajax #}
+                {# <span id='card-price'>{{ total }}</span> #}
+                {# € #}
             </h3>
                 {# <span>Frais de livraison</span> #}
         {# </span> #}

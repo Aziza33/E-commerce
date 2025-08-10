@@ -7,15 +7,12 @@
     <style>
         /* Hero section premium */
         .hero {
-            padding-top: 0 !important;
+            padding-top: 0;
             position: relative;
             /* background: url('https://images.unsplash.com/photo-1585386959984-a41552231693') center/cover no-repeat; */
             background-image: url('{{ asset('uploads/images/hero-desktop.jpg') }}');
             background-repeat : no-repeat;
             background-size : cover;
-            min-height: 100vh !important;
-            
-
             color: white;
             height: 100vh;
             display: flex;
@@ -23,7 +20,38 @@
             justify-content: center;
             text-align: center;
             font-family: 'Playfair Display', serif;
+
+             /* MODIF RESPONSIVE pour améliorer le responsive du hero */
+            /* min-height: 100vh !important; */
+            min-height: 70vh;  
+            padding: clamp(16px, 5vh, 48px);
         }
+        #heroId{
+            padding-top: 0!important;
+        }
+
+        /* MODIF RESPONSIVE */
+        @supports (height: 100dvh){
+            .hero { height dvh;}
+        }
+        @media (max-width: 768px){
+            .hero {
+                background-image: url('{{ asset('uploads/images/facade-hero-mobile.jpg') }}');
+                height: auto;
+                aspect-ratio: 4 / 5;
+                min-height: 70vh;
+            }
+            .hero-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        }
+
         .hero-overlay {
             background: rgba(0, 0, 0, 0.55);
             position: absolute;
@@ -89,6 +117,9 @@
             padding-left: 30px;
             padding-right: 30px;
         }
+
+
+        
     </style>
     <!-- Polices élégantes -->
     <link href="https://fonts.googleapis.com/css2?family=Lora&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
@@ -97,7 +128,7 @@
 {% block body %}
 
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero" id="heroId">
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1 class="hero-title">Villa avec piscine à Marrakech</h1>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Order;
+use App\Entity\OrderProducts;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
 use App\Services\Cart;
@@ -27,12 +28,27 @@ final class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
             if($order->isPayOnDelivery()){
 
-                $order->setTotalPrice(($data['total']));
-                $order->setCreatedAt(new \DateTimeImmutable());
-                $entityManager->persist($order);
-                $entityManager->flush();
+                if (!empty($data['total'])){
+                    $order->setTotalPrice(($data['total']));
+                    $order->setCreatedAt(new \DateTimeImmutable());
+                    $entityManager->persist($order);
+                    $entityManager->flush();
+                    // dd($data['cart']);
+
+                foreach($data['cart'] as $value) {
+                    $orderProduct = new OrderProducts();
+                    $orderProduct ->setOrder($order);
+                    $orderProduct->setProduct($value['product']);
+                    $orderProduct->setQuantity($value['quantity']);
+                    $entityManager->persist($orderProduct);
+                    $entityManager->flush();
+                }
+            }
+
+                
             }
         }
 
