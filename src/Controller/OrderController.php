@@ -9,6 +9,7 @@ use App\Form\OrderType;
 use App\Entity\OrderProducts;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,5 +106,26 @@ final class OrderController extends AbstractController
             // 'total'=>$data['total']
         ]);
     } 
+     #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
+     public function isCompleted (OrderRepository $orderRepository, $id, EntityManagerInterface $entityManager):Response
+     {
+        
+        $order = $orderRepository->find($id);
+        $order->setIsCompleted(true);
+        $entityManager->flush();
+        $this->addFlash('success', 'La livraison a bien été effectuée !');
+        return $this->redirectToRoute('app_orders_show');
+     }
+
+     #[Route('/editor/order/{id}/remove', name: 'app_orders_remove')]
+     public function removeOrder (Order $order, EntityManagerInterface $entityManager):Response
+     {
+        
+        $entityManager->remove($order);
+        $entityManager->flush();
+        $this->addFlash('danger', 'La suppression a bien été effectuée !');
+        return $this->redirectToRoute('app_orders_show');
+     }
+
 
 }
