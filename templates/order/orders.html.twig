@@ -1,67 +1,152 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des commandes{% endblock %}
+{% block title %}Commandes{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    .order-card {
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 1rem;
+      transition: .2s ease;
+      background: #fff;
+    }
+    .order-card:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      transform: translateY(-2px);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: .35rem .75rem;
+    }
+    @media (max-width: 576px) {
+      .kv { grid-template-columns: 1fr; }
+      .kv > div:first-child { font-weight: 600; }
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
-<div class="container">
-   <div class="container pt-5">
-    <h1 class="text-center mt-4 mb-4 pt-5">Liste des Commandes</h1>
-    {% include 'layouts/flash_message.html.twig'%}    
- 
- {% for order in orders %}
-    <table class="table table-striped" >
-        <thead class="table table-dark">
-            <tr>
-                {# <th>Date</th> #}
-                <th>Nom</th>                        
-                <th>Prénom</th>
-                {# <th>Produits commandés</th> #}
-                <th>Tél</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                {# <th>total</th> #}
-                {# <th>Image</th> #}
-            </tr>
-        </thead>
-        <tbody>
-       
-            <h2>Commande n° {{ order.id }}</h2>
-            {% if order.isCompleted == true %}
-                <span class="text-success">Commande livrée</span>
-                {% else %}
-                <span class="text-danger">Commande non livrée</span>
-            {% endif %} 
-      
-            <br>
-            <span class="text-primary">Informations du client</span>
-            <tr>
-                {# <td>{{ order.datetime }}</td> #}
-                <td>{{ order.lastname }}...</td>
-                <td>{{ order.firstname }}</td>
-                <td>{{ order.phone }}</td>
-                <td>{{ order.address }}</td>
-                <td>{{ order.city.name }}</td>
+<div class="container py-5">
 
-                {# <td>{{ order.total_price }}</td> #}      
-            <span>Frais de livraisons : {{ order.city.shippingCost }} €</span>
-            <h5 class='mb-5'>Total à payer : {{ order.city.shippingCost }} €</h5>
-              {% if order.isCompleted != true %}
-                 <a href="{{path('app_orders_is-completed-update', {'id':order.id})}}" class="btn btn-outline-primary col-2 m-lg-1">Marquer comme livrée</a> 
-            {% endif %}
-                  
-            <a href="{{path ('app_orders_remove', {'id':order.id})}}" class="btn btn-outline-danger col-2 m-lg-1">Supprimer la commande</a>
-
-            <a onclick="return confirm ('Voulez-vous vraiment supprimer cette commande ?')"></a>
-            </tr>
-        {% endfor %}
-
-
-        </tbody>
-    </table>
-    
-
-</div>
-</div>
+  <div class="d-flex align-items-end justify-content-between mb-3">
+    <div>
+      <h1 class="mb-1">Liste des commandes</h1>
+      <p class="text-muted mb-0">
+        {{ orders|length }} commande{{ orders|length > 1 ? 's' }}
+      </p>
     </div>
+  </div>
+
+  {% include 'layouts/flash_message.html.twig' %}
+
+  <div class="vstack gap-4">
+    {% for order in orders %}
+      <div class="p-4 order-card">
+        <div class="d-flex align-items-start justify-content-between mb-3">
+          <div>
+            <h5 class="mb-1">Commande n° {{ order.id }}</h5>
+            <div class="small text-muted">
+              Créée le {{ order.createdAt ? order.createdAt|date('d/m/Y H:i') : '—' }}
+            </div>
+          </div>
+          <span class="badge {{ order.isCompleted ? 'bg-success' : 'bg-warning text-dark' }}">
+            {{ order.isCompleted ? 'Livrée' : 'Non livrée' }}
+          </span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-7">
+            <h6 class="text-uppercase text-muted small mb-2">Client</h6>
+            <div class="kv">
+              <div>Nom</div>       <div>{{ order.lastname|default('—') }}</div>
+              <div>Prénom</div>    <div>{{ order.firstname|default('—') }}</div>
+              <div>Téléphone</div> <div>{{ order.phone|default('—') }}</div>
+              <div>Adresse</div>   <div>{{ order.address|default('—') }}</div>
+              <div>Ville</div>     <div>{{ order.city ? order.city.name : '—' }}</div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <h6 class="text-uppercase text-muted small mb-2">Montants</h6>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Frais de livraison</span>
+                <strong>{{ order.city ? order.city.shippingCost : 0 }} €</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Total commande</span>
+                <strong>{{ order.totalPrice|default(0) }} €</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Total à payer</span>
+                <strong>
+                  {{ (order.totalPrice|default(0)) + (order.city ? order.city.shippingCost : 0) }} €
+                </strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {# ---- Tableau des produits ---- #}
+        <div class="mt-4">
+          <h6 class="text-uppercase text-muted small mb-2">Produits</h6>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for product in order.orderProducts %}
+                  <tr>
+                    <td>{{ product.product.name }}</td>
+                    <td>{{ product.product.description|default('')|slice(0, 100) }}</td>
+                    <td>{{ product.product.price }} €</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.product.price * product.quantity }} €</td>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td colspan="5" class="text-muted">Aucun produit pour cette commande.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a href="{{ path('app_bill', {'id': order.id}) }}" class="btn btn-outline-dark">
+            Imprimer la facture
+          </a>
+
+          {% if not order.isCompleted %}
+            <a href="{{ path('app_orders_is-completed-update', {'id': order.id}) }}" class="btn btn-success">
+              Marquer comme livrée
+            </a>
+          {% endif %}
+
+          <a href="{{ path('app_orders_remove', {'id': order.id}) }}"
+             class="btn btn-outline-danger"
+             onclick="return confirm('Voulez-vous vraiment supprimer cette commande ?')">
+            Supprimer
+          </a>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-info">Aucune commande à afficher.</div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-4">
     {{ knp_pagination_render(orders, 'layouts/paginator.html.twig') }}
+  </div>
 </div>
 {% endblock %}

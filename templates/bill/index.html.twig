@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture{% endblock %}
+
+{% block stylesheets %}
+{# {{ parent() }} #}
+<style>
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  thead {
+    background: #f2f2f2;
+  }
+  tbody tr:nth-child(odd) {
+    background: #f9f9f9;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  {# Logo éventuel ici #}
+  <h2>Facture n° {{ order.id }}</h2>
+  <hr>
+  <span>Date de la commande : {{ order.createdAt|date('d/m/Y H:i') }}</span>
+</div>
+
+<h5>Informations du client</h5>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Tél</th>
+      <th>Adresse</th>
+      <th>Ville</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ order.lastname }}</td>
+      <td>{{ order.firstname }}</td>
+      <td>{{ order.phone }}</td>
+      <td>{{ order.address }}</td>
+      <td>{{ order.city.name }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5>Détails de la commande</h5>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Nom du produit</th>
+      <th>Description du produit</th>
+      <th>Prix du produit</th>
+      <th>Quantité</th>
+      <th>Prix total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in order.orderProducts %}
+      <tr>
+        <td>{{ product.product.name }}</td>
+        <td>{{ product.product.description|slice(0, 100) }}</td>
+        <td>{{ product.product.price }} €</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.product.price * product.quantity }} €</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>Frais de livraison : {{ order.city.shippingCost }} €</p>
+<h3 class="mb-5">Total à payer : {{ order.totalPrice + order.city.shippingCost }} €</h3>
+{% endblock %}
