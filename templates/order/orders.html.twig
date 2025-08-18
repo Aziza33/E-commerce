@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commandes{% endblock %}
+{% block body %}
+<div class="container">
+   <div class="container pt-5">
+    <h1 class="text-center mt-4 mb-4 pt-5">Liste des Commandes</h1>
+    {# {% include 'layouts/flash_message.html.twig'%} #}    
+    {# <a href="{{ path('app_product_stock_add_history', {'id': product.id}) }}" class="btn btn-primary mb-3">Stock</a> #}
+
+    <table class="table table-striped" >
+        <thead class="table table-dark">
+            <tr>
+                {# <th>Date</th> #}
+                <th>Nom</th>                        
+                <th>Prénom</th>
+                {# <th>Produits commandés</th> #}
+                <th>Tél</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                {# <th>total</th> #}
+                {# <th>Image</th> #}
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                {# <td>{{ order.datetime }}</td> #}
+                <td>{{ order.lastname }}...</td>
+                <td>{{ order.firstname }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.city.name }}</td>
+
+                {# <td>{{ order.total_price }}</td> #}      
+            <span>Frais de livraisons : {{ order.city.shippingCost }} €</span>
+            <h5 class='mb-5'>Total à payer : {{ order.city.shippingCost }} €</h5>
+            <a href="" class="btn btn-outline-primary col-2 m-lg-1">Marquer comme livrée</a>        
+            <a href="" class="btn btn-outline-danger col-2 m-lg-1">Supprimer la commande</a>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+
+</div>
+</div>
+    </div>
+    {{ knp_pagination_render(orders, 'layouts/paginator.html.twig') }}
+</div>
+{% endblock %}

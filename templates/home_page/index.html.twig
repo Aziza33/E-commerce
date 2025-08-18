@@ -14,7 +14,7 @@
             background-repeat : no-repeat;
             background-size : cover;
             color: white;
-            height: 100vh;
+            /* height: 100vh; */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -23,7 +23,7 @@
 
              /* MODIF RESPONSIVE pour améliorer le responsive du hero */
             /* min-height: 100vh !important; */
-            min-height: 70vh;  
+            min-height: 100vh;  
             padding: clamp(16px, 5vh, 48px);
         }
         #heroId{
@@ -83,13 +83,17 @@
             display: block;
             margin: 15px; /* Marge autour de chaque card */
             background: white;
+            /* height: 300px; */
         }
         .product-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(218,165,32,0.35); /* doré subtil */
+            box-shadow: 0 10px 30px rgba(218,165,32,0.35); /* doré */
+            box-shadow: 0 10px 30px rgba(36, 30, 13, 0.35); 
+
         }
         .product-img {
-            height: 260px;
+            /* height: 260px; */
+            height: 200px;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
@@ -101,22 +105,70 @@
             font-weight: bold;
             color: #1a1a1a;
             font-family: 'Playfair Display', serif;
+            margin: 2%;
         }
         .product-price {
             font-size: 1.3rem;
             font-weight: bold;
             color: #bfa14a; /* Doré luxe */
             font-family: 'Playfair Display', serif;
+            margin: 2%;
         }
         .product-description {
             font-size: 0.95rem;
             color: #666;
             font-family: 'Lora', serif;
+            margin: 2%;
         }
         .container-premium {
             padding-left: 30px;
             padding-right: 30px;
         }
+        /* .lienAjouterPanier{
+            margin-left: 5%;
+            text-decoration: none;
+        } */
+
+ .btn-sobre {
+  background: #111;        /* noir profond */
+  color: #fff;             /* texte blanc */
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* espace entre icône et texte */
+  transition: all 0.25s ease;
+}
+
+.btn-sobre .icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.btn-sobre:hover {
+  background: #222;         /* léger éclaircissement */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.btn-sobre:active {
+  background: #000;
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.btn-sobre:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 
+              0 0 0 4px #000;
+}
+
+
 
 
         
@@ -142,7 +194,7 @@
 
 <!-- Produits -->
 <div id="products" class="container container-premium mt-5">
-    <h2 class="mb-5 text-center fw-bold" style="font-family: 'Playfair Display', serif;">Nos Produits d'Exception</h2>
+    <h2 class="mb-5 text-center fw-bold" style="font-family: 'Playfair Display', serif;">Nos Produits</h2>
 
     <div class="row g-4">
         {% for product in products %}
@@ -162,7 +214,20 @@
                         <div class="mt-auto">
                             <p class="product-price">{{ product.price }} €</p>
                         </div>
-                        <a href="{{path('app_cart_add', {'id':product.id}) }}">Ajouter dans le panier</a>
+                        {# <a class="lienAjouterPanier" href="{{path('app_cart_add', {'id':product.id}) }}">Ajouter dans le panier</a> #}
+                       <button class="lienAjouterPanier btn-sobre text-center"
+        onclick="location.href='{{ path('app_cart_add', { id: product.id }) }}'">
+  
+  Ajouter au panier
+  {# <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M3 4h2l3.6 7.59-1.35 2.44A2 2 0 0 0 9 17h10a2 2 0 0 0 2-2v-5H7.42l-.93-2H3z"/>
+    <circle cx="9" cy="21" r="1.5"/>
+    <circle cx="18" cy="21" r="1.5"/>
+  </svg> #}
+</button>
+
+
+
                     </div>
                 </a>
             </div>

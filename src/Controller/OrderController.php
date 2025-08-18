@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Order;
-use App\Entity\OrderProducts;
-use App\Form\OrderType;
-use App\Repository\ProductRepository;
 use App\Services\Cart;
+use App\Form\OrderType;
+use App\Entity\OrderProducts;
+use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,9 +32,10 @@ final class OrderController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             if($order->isPayOnDelivery()){
+                // dd($order);
 
                 if (!empty($data['total'])){
-                    $order->setTotalPrice(($data['total']));
+                    $order->setTotalPrice($data['total']);
                     $order->setCreatedAt(new \DateTimeImmutable());
                     $entityManager->persist($order);
                     $entityManager->flush();
@@ -48,6 +51,10 @@ final class OrderController extends AbstractController
                 }
             }
 
+            // Mise à jour du contenu du panier en session
+            $session->set('cart', []);
+            // Redirection vers la page du panier
+            return $this->redirectToRoute('order_message');
                 
             }
         }
@@ -68,4 +75,35 @@ final class OrderController extends AbstractController
 
         // dd($city);
     }
+
+    #[Route('/order_message', name: 'order_message')]
+    public function orderMessage():Response
+    {
+        $this->addFlash('success', 'Votre commande a bien été validée !');
+
+        return $this->render('order/orderMessage.html.twig');
+    }
+
+     #[Route('/editor/orders', name: 'app_orders_show')]
+    public function getAllOrder(OrderRepository $orderRepository, PaginatorInterface $paginator, Request $request):Response
+    {
+
+        $data = $orderRepository->findAll();
+        $orders = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1), // met en place la pagination
+            8 // je choisis 8 articles par page
+        );
+        // $city = $city->getName();
+        // $data = $data['total'];
+
+        return $this->render('order/orders.html.twig', [
+            'controller_name' => 'OrderController',
+            'orders' => $orders,
+            // 'city' => $city
+            
+            // 'total'=>$data['total']
+        ]);
+    } 
+
 }
