@@ -7,12 +7,14 @@ use App\Entity\Order;
 use App\Services\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,6 +22,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
 {
+
+    public function __construct(private MailerInterface $mailer){
+    
+    }
+
     #[Route('/order', name: 'app_order')]
     public function index(EntityManagerInterface $entityManager, ProductRepository $productRepository, 
                             SessionInterface $session, Request $request, Cart $cart): Response
@@ -54,6 +61,19 @@ final class OrderController extends AbstractController
 
             // Mise à jour du contenu du panier en session
             $session->set('cart', []);
+
+            // Insertion mail 
+            //créér une vue mail
+            $html = $this->renderView('mail/orderConfirm.html.twig',[
+                'order'=>$order
+            ]);
+            $email = (new Email()) // on importe la classe depuis Symfony\Component\Mime\Email;
+            // modifier et mettre la future adresse mail
+            ->from('test@gmail.com')
+            ->to($order->getEmail()) // adresse du receveur
+            ->subject('Confirmation de réception de commande') // objet du mail
+            ->html($html);
+            $this->mailer->send($email);
             // Redirection vers la page du panier
             return $this->redirectToRoute('order_message');
                 

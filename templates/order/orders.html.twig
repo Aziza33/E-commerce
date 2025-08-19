@@ -112,10 +112,10 @@
                     <td>{{ product.quantity }}</td>
                     <td>{{ product.product.price * product.quantity }} €</td>
                   </tr>
-                {% else %}
+                {# {% else %}
                   <tr>
                     <td colspan="5" class="text-muted">Aucun produit pour cette commande.</td>
-                  </tr>
+                  </tr> #}
                 {% endfor %}
               </tbody>
             </table>
