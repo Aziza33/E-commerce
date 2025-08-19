@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Services\StripePayment;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +60,9 @@ final class OrderController extends AbstractController
                 }
             }
 
+            // Payment Stripe
+            
+
             // Mise à jour du contenu du panier en session
             $session->set('cart', []);
 
@@ -78,6 +82,14 @@ final class OrderController extends AbstractController
             return $this->redirectToRoute('order_message');
                 
             }
+
+            $paymentStripe = new StripePayment(); 
+            $shippingCost = $order->getCity()->getShippingCost();
+            $paymentStripe->startPayment($data, $shippingCost); 
+            $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
+
+            return $this->redirect($stripeRedirectUrl);
+
         }
 
         return $this->render('order/index.html.twig', [

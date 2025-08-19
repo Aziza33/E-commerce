@@ -146,6 +146,10 @@ class Order
         return $this;
     }
 
+    // AJOUT STRIPE
+
+
+
     /**
      * @return Collection<int, OrderProducts>
      */
