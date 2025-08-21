@@ -17,7 +17,7 @@ class StripePayment {
         Stripe::setApiVersion('2025-07-30.basil');
     }
 
-    public function startPayment($cart, $shippingCost){
+    public function startPayment($cart, $shippingCost, $orderId){
         // dd($cart);
 
         // Récupération des produits du panier
@@ -48,10 +48,10 @@ class StripePayment {
                     'quantity' =>$product['qte'],
                     'price_data' => [
                         'currency' => 'Eur',
-                        'product_data' => [
+                        'product_data' =>[
                             'name' => $product['name']
                         ],
-                        'unit_amount' => $product['price']*100,
+                        'unit_amount' => $product['price']*100, // prix donné en centimes
                     ],
                 ],$products )
            
@@ -59,22 +59,18 @@ class StripePayment {
             'mode' => 'payment',
             'cancel_url' => 'http://127.0.0.1:8000/pay/cancel',
             'success_url' => 'http://127.0.0.1:8000/pay/success',
-            'billing_address_collection' => 'required',
+            'billing_address_collection' => 'required', // si on autorise les factures
             'shipping_address_collection' => [
                 'allowed_countries' => ['FR',],
             ],
-            'metadata' => [
-                // 'order_id' => $cart->id
-                'order_id' => '2',
-                // 'lastname' => 'z',
-                // 'firstname' => 'z',
-                // 'phone' => '0606060606',
-                // 'address' => 'z',
-                // 'totalPrice' => '280'
-
-
-               
-
+            // 'metadata' => [
+            //     // 'order_id' => $cart->id
+            //     'order_id' => '2'
+            // ],
+            'payment_intent_data' => [
+                'metadata' => [
+                    'orderid' =>$orderId,
+                ]
             ]
 
         ]);

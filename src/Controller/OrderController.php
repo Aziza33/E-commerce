@@ -7,7 +7,6 @@ use App\Entity\Order;
 use App\Services\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
@@ -21,13 +20,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class OrderController extends AbstractController
+class OrderController extends AbstractController
 {
 
     public function __construct(private MailerInterface $mailer){
     
     }
 
+    #region ORDER
     #[Route('/order', name: 'app_order')]
     public function index(EntityManagerInterface $entityManager, ProductRepository $productRepository, 
                             SessionInterface $session, Request $request, Cart $cart): Response
@@ -40,17 +40,16 @@ final class OrderController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            if($order->isPayOnDelivery()){
-                // dd($order);
-
                 if (!empty($data['total'])){
-                    $order->setTotalPrice($data['total']);
+                    $totalPrice = $data['total'] + $order->getCity()->getShippingCost();
+                    $order->setTotalPrice($totalPrice);
                     $order->setCreatedAt(new \DateTimeImmutable());
+                    $order->setIsPaymentCompleted(0);
                     $entityManager->persist($order);
                     $entityManager->flush();
                     // dd($data['cart']);
 
-                foreach($data['cart'] as $value) {
+                foreach($data['cart'] as $value) { // pour chaque élément ds le panier
                     $orderProduct = new OrderProducts();
                     $orderProduct ->setOrder($order);
                     $orderProduct->setProduct($value['product']);
@@ -58,65 +57,65 @@ final class OrderController extends AbstractController
                     $entityManager->persist($orderProduct);
                     $entityManager->flush();
                 }
-            }
 
-            // Payment Stripe
+                if($order->isPayOnDelivery()){
+                     // Mise à jour du contenu du panier en session, après avoir flush
+                    $session->set('cart', []);
+    
+                     //créér une vue mail
+                    $html = $this->renderView('mail/orderConfirm.html.twig', [
+                        'order'=>$order // On récupère le order après le flush pour avoir ttes les infos
+                    ]);
+                    $email = (new Email())  // on importe la classe depuis Symfony\Component\Mime\Email;
+                    ->from('test@gm.com') // adresse mail à changer mettre le futur mail 
+                    ->to($order->getEmail())  // adresse du receveur
+                    ->subject('Confirmation de réception de commande')
+                    ->html($html);
+                    $this->mailer->send($email);
+
+                    // redirection vers la page du panier
+                    return $this->redirectToRoute('app_order_message');
+                }
+            }
             
-
-            // Mise à jour du contenu du panier en session
-            $session->set('cart', []);
-
-            // Insertion mail 
-            //créér une vue mail
-            $html = $this->renderView('mail/orderConfirm.html.twig',[
-                'order'=>$order
-            ]);
-            $email = (new Email()) // on importe la classe depuis Symfony\Component\Mime\Email;
-            // modifier et mettre la future adresse mail
-            ->from('test@gmail.com')
-            ->to($order->getEmail()) // adresse du receveur
-            ->subject('Confirmation de réception de commande') // objet du mail
-            ->html($html);
-            $this->mailer->send($email);
-            // Redirection vers la page du panier
-            return $this->redirectToRoute('order_message');
+            // Quand c'est false payment Stripe
+                $paymentStripe = new StripePayment();
+                $shippingCost = $order->getCity()->getShippingCost();
+                $paymentStripe->startPayment($data, $shippingCost, $order->getId()); // on importe le panier et les frais de livraison
+                $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
                 
-            }
-
-            $paymentStripe = new StripePayment(); 
-            $shippingCost = $order->getCity()->getShippingCost();
-            $paymentStripe->startPayment($data, $shippingCost); 
-            $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
-
-            return $this->redirect($stripeRedirectUrl);
-
-        }
-
-        return $this->render('order/index.html.twig', [
+              return $this->redirect($stripeRedirectUrl);          
+            }        
+            return $this->render('order/index.html.twig', [
             'form' =>$form->createView(),
             'total'=>$data['total'],
         ]);
     }
 
-    #[Route('/city/{id}/shipping/cost', name: 'app_city_shipping_cost')]
-        public function cityShippingCost(City $city): Response
-    {
-        $cityShippingPrice = $city->getShippingCost();
-        
-        // reponse en json
-        return new Response(json_encode(['status'=>200, "message"=>'on', 'content'=> $cityShippingPrice]));
-
-        // dd($city);
-    }
-
-    #[Route('/order_message', name: 'order_message')]
+#endregion ORDER
+#region ORDER MESSAGE
+    #[Route('/order_message', name: 'app_order_message')]
     public function orderMessage():Response
     {
         $this->addFlash('success', 'Votre commande a bien été validée !');
 
         return $this->render('order/orderMessage.html.twig');
     }
+#endregion ORDER MESSAGE
+#region CITY COST
+    #[Route('/city/{id}/shipping/cost', name: 'app_city_shipping_cost')]
+        public function cityShippingCost(City $city): Response
+    {
+        $cityShippingPrice = $city->getShippingCost();
+        
+        // reponse en json
+        return new Response(json_encode(['status'=>200, 'message'=>'on', 'content'=> $cityShippingPrice]));
 
+    }
+
+#endregion CITY COST
+
+#region EDITOR ORDERS
      #[Route('/editor/orders', name: 'app_orders_show')]
     public function getAllOrder(OrderRepository $orderRepository, PaginatorInterface $paginator, Request $request):Response
     {
@@ -127,17 +126,15 @@ final class OrderController extends AbstractController
             $request->query->getInt('page', 1), // met en place la pagination
             8 // je choisis 8 articles par page
         );
-        // $city = $city->getName();
-        // $data = $data['total'];
 
         return $this->render('order/orders.html.twig', [
-            'controller_name' => 'OrderController',
+            // 'controller_name' => 'OrderController',
             'orders' => $orders,
-            // 'city' => $city
-            
-            // 'total'=>$data['total']
         ]);
     } 
+#endregion EDITOR ORDERS
+#region UPDATE
+
      #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
      public function isCompleted (OrderRepository $orderRepository, $id, EntityManagerInterface $entityManager):Response
      {
@@ -148,7 +145,8 @@ final class OrderController extends AbstractController
         $this->addFlash('success', 'La livraison a bien été effectuée !');
         return $this->redirectToRoute('app_orders_show');
      }
-
+#endregion UPDATE
+#region DELETE
      #[Route('/editor/order/{id}/remove', name: 'app_orders_remove')]
      public function removeOrder (Order $order, EntityManagerInterface $entityManager):Response
      {
@@ -158,6 +156,6 @@ final class OrderController extends AbstractController
         $this->addFlash('danger', 'La suppression a bien été effectuée !');
         return $this->redirectToRoute('app_orders_show');
      }
-
+#endregion DELETE
 
 }
