@@ -356,6 +356,15 @@
                             Admin
                         </a>
                         <ul class="dropdown-menu">
+                        {% if is_granted("ROLE_EDITOR") %}
+                          <li><a class="dropdown-item" href="#">Commandes</a></li>
+                          <li><a class="dropdown-item" href="{{ path('app_orders_show', {'type':'pay-on-stripe-not-delivered'})}}">Commandes livrées</a></li>                  
+                          <li><a class="dropdown-item" href="#">Commandes payées</a></li> 
+                        {% endif %}
+                                           
+
+                          <li><hr class="dropdown-divider"></li>
+
                             <li><a class="dropdown-item" href="{{ path('app_category') }}">Catégories</a></li>
                             <li><a class="dropdown-item" href="{{ path('app_category_new') }}">Ajouter une catégorie</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -366,6 +375,7 @@
                             <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
+                          
                         </ul>
                     </li>
                 {% endif %}
@@ -380,12 +390,13 @@
                     <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
                 {% endif %}
 
+
             </div>
 
             <!-- Barre de recherche -->
-            <form class="d-flex" role="search" action="" method="get">
-                <input class="form-control me-2" type="search" name="q" placeholder="Rechercher..." aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">Rechercher</button>
+            <form class="d-flex" role="search" action="{{ path('app_search_engine') }}" method="post">
+                <input class="form-control me-2" type="search" name="word" placeholder="Rechercher..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit" data-turbo='false'>Rechercher</button>
             </form>
                 <!-- Lien discret vers le panier -->
                 <a href="{{ path('app_cart') }}" class="panierNav text-white text-decoration-none position-relative small">

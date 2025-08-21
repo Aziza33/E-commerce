@@ -116,9 +116,15 @@ class OrderController extends AbstractController
 #endregion CITY COST
 
 #region EDITOR ORDERS
-     #[Route('/editor/orders', name: 'app_orders_show')]
-    public function getAllOrder(OrderRepository $orderRepository, PaginatorInterface $paginator, Request $request):Response
+     #[Route('/editor/order/{type}/', name: 'app_orders_show')]
+    public function getAllOrder($type, OrderRepository $orderRepository, PaginatorInterface $paginator, Request $request):Response
     {
+        // wildcard pour filtrer les commandes/type
+        if($type == 'is-completed'){
+            $data = $orderRepository->findBy(['isCompleted'=>1], ['id'=>'DESC']);
+        }else if($type == 'pay-on-stripe-not-delivered'){
+            $data = $orderRepository->findBy(['isCompleted'=>null, 'pay-on-delivery'=>0,'is_payment_completed'=>1]);
+        }
 
         $data = $orderRepository->findAll();
         $orders = $paginator->paginate(
@@ -136,14 +142,14 @@ class OrderController extends AbstractController
 #region UPDATE
 
      #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
-     public function isCompleted (OrderRepository $orderRepository, $id, EntityManagerInterface $entityManager):Response
+     public function isCompletedUpdate (Request $request, $id, OrderRepository $orderRepository, EntityManagerInterface $entityManager):Response
      {
         
         $order = $orderRepository->find($id);
         $order->setIsCompleted(true);
         $entityManager->flush();
-        $this->addFlash('success', 'La livraison a bien été effectuée !');
-        return $this->redirectToRoute('app_orders_show');
+        $this->addFlash('success', 'La modification a bien été effectuée !');
+        return $this->redirect($request->headers->get('referer'));
      }
 #endregion UPDATE
 #region DELETE

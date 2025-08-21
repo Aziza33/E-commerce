@@ -12,11 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page', methods: ('GET'))]
     public function index(SubCategoryRepository $subCategoryRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator): Response
     {   
+
+        // $search = $productRepository->searchEngine('Kamil');
+        // dd($search);
+
         $data = $productRepository->findBy([],['id'=>"DESC"]);
         $products = $paginator->paginate(
             $data,
