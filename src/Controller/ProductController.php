@@ -99,7 +99,7 @@ final class ProductController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     // #[IsGranted("ROLE_ADMIN")]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger, $stock): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -121,6 +121,11 @@ final class ProductController extends AbstractController
                         $product->setImage($newFileImageName);
                 }
 
+            // $stock = $form->get('stock')->getData();
+              
+            // $product->setStock($stock);
+                
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Le produit a bien été mis à jour !');
@@ -131,6 +136,7 @@ final class ProductController extends AbstractController
         return $this->render('product/edit.html.twig', [
             'product' => $product,
             'form' => $form,
+            'stock' => $stock,
         ]);
     }
 #endregion EDIT
@@ -162,6 +168,23 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
         $product = $productRepository->find($id);
         if ($form->isSubmitted() && $form->isValid()){
+
+#region  AJOUT LIMITE STOCK
+
+            if ($stockAdd->getQuantity()==0){
+                $newQuantity = $product->getStock();
+                $product->setStock($newQuantity);
+                $entityManager->persist($stockAdd);
+                $entityManager->flush();
+                $this->addFlash('danger', 'Le stock est épuisé.');
+            }
+
+            if ($stockAdd->getQuantity()<=5){
+                $quantity = $product->getStock();
+
+                $this->addFlash('warning', 'Il ne reste plus que ' .$quantity .' produits en stock.');
+            }
+#endregion FIN AJOUT LIMITE STOCK
             
             if($stockAdd->getQuantity()>0){  // si stock > 0
                 $newQuantity = $product->getStock() + $stockAdd->getQuantity(); // on additionne le stock existant au stock ajouté

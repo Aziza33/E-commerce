@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\OrderProducts;
 use App\Services\Cart;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,22 +32,65 @@ final class CartController extends AbstractController
 #region ADD PRODUCTS
         #[Route('/cart/add/{id}', name: 'app_cart_add', methods: ['GET'])]
         // Définit une route pour ajouter un produit au panier
-        public function addProductToCart(int $id, SessionInterface $session): Response // int veut dire type integer obligatoire, + sécurisé
+        public function addProductToCart(int $id, SessionInterface $session, ProductRepository $productRepository): Response // int veut dire type integer obligatoire, + sécurisé
         // Méthode pour ajouter un produit au panier, prend l'ID du produit et la session en paramètres
         {
             $cart = $session->get('cart', []);
+#region ESSAI ajout limitation des produits
+            $product = $productRepository->findOneBy(['id'=>$id]);
+            $stock = $product->getStock();
+           
+            if ($stock <=0){
+                    $this->addFlash('danger', 'Stock épuisé.');
+            }
+            if ($stock <=5){
+            $this->addFlash('warning', 'Attention, il ne reste que '.$stock . 'articles en stock.');
+            }
+            // Récupérer la qté disponible
+            
             // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
+            dd($cart);
             if (!empty($cart[$id])){
-                $cart[$id]++;
+                $quantity = $cart[$id];
+                
+                if ($stock <= $quantity){
+                    $this->addFlash('warning', 'Attention, il ne reste que '.$stock . 'articles en stock.');
+                }
+                else{
+                    $cart[$id]++;
+                }
             }else{
                 $cart[$id]=1;
             }
+
             // Si le produit est déjà ds le panier, incrémente sa quantité sinon l'ajoute avec une quantité de 1
             $session->set('cart', $cart);
             // Met à jour le panier ds la session et redirige vers la page du panier
             return $this->redirectToRoute('app_cart');
         }
 #endregion ADD PRODUCTS
+#region LIMIT PRODUCTS
+// public function limitQuantity (SessionInterface $session, Cart $cart, OrderProducts $orderProducts, $id, $quantity){
+//     $cart = $session->get('cart', []);
+            // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
+           
+                // Récupérer la qté disponible
+                //    $quantity = $orderProducts->getQuantity();
+                //    if ($quantity <=0){
+                //          $this->addFlash('danger', 'Stock épuisé.');
+                //    }else{
+                //         $cart[$id]++;
+                //    }
+                //    if ($quantity <=5){
+                //     $this->addFlash('warning', 'Attention, il ne reste que '.$quantity . 'articles en stock.');
+                //    }
+                //    else{
+                // $cart[$id]=1;
+                //  }
+// }
+
+
+#endregion LIMIT PRODUCTS
 #region REMOVE TO CART
         #[Route('/cart/delete/{id}', name: 'app_cart_product_delete', methods: ['GET'])]
         public function removeToCart($id, SessionInterface $session): Response

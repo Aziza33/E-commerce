@@ -49,7 +49,7 @@
                                         <div class="btn-group" role="group">
                                             <a href="{{ path('app_cart_product_delete', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-dark">➖</a>
                                             <span class="btn btn-sm btn-light disabled">{{ item.quantity }}</span>
-                                            <a href="{{ path('app_cart_add', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-dark">➕</a>
+                                            <a href="{{ path('app_cart_add', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-dark" onclick="">➕</a>
                                         </div>
                                     </td>
 
