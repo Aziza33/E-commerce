@@ -17,27 +17,27 @@ class OrderType extends AbstractType
             ->add('firstName', null, [
                 'required' => true,
                 'attr' => [
-                    'class'=>'form form-control'
+                    'class'=>'form form-control', 'v'
                 ]
             ])
             ->add('lastName', null, [
                 'attr' => [
-                    'class'=>'form form-control'
+                    'class'=>'form form-control', 'v'
                 ]
             ])
             ->add('email', null, [
                 'attr' => [
-                    'class'=>'form form-control'
+                    'class'=>'form form-control', 'v@v.fr'
                 ]
             ])
             ->add('phone', null, [
                 'attr' => [
-                    'class'=>'form form-control'
+                    'class'=>'form form-control', '00'
                 ]
             ])
             ->add('address', null, [
                 'attr' => [
-                    'class'=>'form form-control'
+                    'class'=>'form form-control', 'v'
                 ]
             ])
             // ->add('createdAt', null, [

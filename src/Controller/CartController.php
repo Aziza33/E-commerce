@@ -49,7 +49,7 @@ final class CartController extends AbstractController
             // Récupérer la qté disponible
             
             // récupère le panier actuel de la session, ou un tableau vide s'il n'existe pas
-            dd($cart);
+            // dd($cart);
             if (!empty($cart[$id])){
                 $quantity = $cart[$id];
                 

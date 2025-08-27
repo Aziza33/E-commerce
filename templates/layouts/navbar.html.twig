@@ -399,8 +399,8 @@
                 <button class="btn btn-outline-light" type="submit" data-turbo='false'>Rechercher</button>
             </form>
                 <!-- Lien discret vers le panier -->
-                <a href="{{ path('app_cart') }}" class="panierNav text-white text-decoration-none position-relative small">
-                    🛒 Panier
+                <a href="{{ path('app_cart') }}" class="panierNav text-danger text-decoration-none position-relative big">
+                    🛒 
                     {% if app.session and app.session.get('cart') is not empty %}
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ app.session.get('cart')|length }}
