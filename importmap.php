@@ -16,6 +16,34 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'home_page_index' => [
+        'path' => './assets/js/home_page/index.js',
+        'entrypoint' => true
+    ],
+    'home_page_show' => [
+        'path' => './assets/js/home_page/show.js',
+        'entrypoint' => true
+    ],
+    'home_page_filter' => [
+        'path' => './assets/js/home_page/filter.js',
+        'entrypoint' => true
+    ],
+    'bill_index' => [
+        'path' => './assets/js/bill/index.js',
+        'entrypoint' => true
+    ],
+    'mail_orderConfirm' => [
+        'path' => './assets/js/mail/orderConfirm.js',
+        'entrypoint' => true
+    ],
+    'order_orders' => [
+        'path' => './assets/js/order/orders.js',
+        'entrypoint' => true
+    ],
+    'villa_villa58' => [
+        'path' => './assets/js/villa/villa58.js',
+        'entrypoint' => true
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

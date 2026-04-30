@@ -58,7 +58,7 @@ class StripePayment {
             ],
             'mode' => 'payment',
             'cancel_url' => 'http://127.0.0.1:8000/pay/cancel',
-            'success_url' => 'http://127.0.0.1:8000/pay/success',
+            'success_url' => 'http://127.0.0.1:8000/pay/success/'.$orderId,
             'billing_address_collection' => 'required', // si on autorise les factures
             'shipping_address_collection' => [
                 'allowed_countries' => ['FR',],

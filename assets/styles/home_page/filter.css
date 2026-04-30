@@ -1,0 +1,29 @@
+.product-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .product-img {
+        height: 250px;
+        object-fit: cover;
+    }
+    .product-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #bfa05a; /* Doré luxe */
+    }
+    .product-price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #bfa05a; /* Doré luxe */
+    }
+    .product-description {
+        font-size: 0.9rem;
+        color: #666;
+    }

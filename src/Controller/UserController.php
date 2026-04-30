@@ -11,8 +11,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
+
 final class UserController extends AbstractController
 {
+
+    // #[Route('/mon-profil', name: 'app_user')]
+    // public function profil(): Response
+    // {   
+        
+    //     // dans user ajouter la relation avec order
+    //     // order à un user ou 0
+    //     // un user à 0 ou plusieurs order
+    //     return $this->render('user/index.html.twig');
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #[Route('/admin/user', name: 'app_user')]
     public function index(UserRepository $userRepository): Response
     {   

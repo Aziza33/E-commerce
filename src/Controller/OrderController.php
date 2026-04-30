@@ -5,12 +5,13 @@ namespace App\Controller;
 use App\Entity\City;
 use App\Entity\Order;
 use App\Services\Cart;
+use App\Entity\Product;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+use App\Services\StripePayment;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
-use App\Services\StripePayment;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +75,7 @@ class OrderController extends AbstractController
                     $this->mailer->send($email);
 
                     // redirection vers la page du panier
-                    return $this->redirectToRoute('app_order_message');
+                    return $this->redirectToRoute('app_order_message', ["id"=>$order->getId()]);
                 }
             }
             
@@ -94,11 +95,35 @@ class OrderController extends AbstractController
 
 #endregion ORDER
 #region ORDER MESSAGE
-    #[Route('/order_message', name: 'app_order_message')]
-    public function orderMessage():Response
+    #[Route('/order_message/{id}', name: 'app_order_message')]
+    public function orderMessage(Order $order, ProductRepository $productRepository, EntityManagerInterface $entityManager):Response
     {
         $this->addFlash('success', 'Votre commande a bien été validée !');
+        foreach ($order->getOrderProducts() as $orderProduct){
+            dump($orderProduct);
+            $quantity=$orderProduct->getQuantity();
+            dump($quantity);
+            $product = $orderProduct->getProduct();
+            $stock = $product->getStock();
+            dump($product);
+            dump ($stock);
 
+           if ($quantity > $stock){
+            dump($quantity);
+            dump($stock);
+           
+            $this->addFlash('danger', 'Stock insuffisant');
+            // return $this->render('order/orderMessage.html.twig'); 
+           }
+           else if ($quantity === $stock){
+            $newQuantity = ($stock - $quantity);
+            dump($newQuantity);
+            $stock = $product->setStock($newQuantity);
+            $entityManager->persist($stock);
+            $entityManager->flush();
+           } 
+        }
+        die;
         return $this->render('order/orderMessage.html.twig');
     }
 #endregion ORDER MESSAGE

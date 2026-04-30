@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
+use App\Entity\Order;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,10 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class StripeController extends AbstractController
 {
-    #[Route('/pay/success', name: 'app_stripe_success')]
-    public function success(): Response
+    #[Route('/pay/success/{id}', name: 'app_stripe_success')]
+    public function success(Order $order): Response
     {
         $this->addFlash('success', 'Votre paiement a bien été effectué');
+
         return $this->render('stripe/index.html.twig', [
             'controller_name' => 'StripeController',
         ]);

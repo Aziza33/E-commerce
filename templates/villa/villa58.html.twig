@@ -1,0 +1,252 @@
+{# templates/villas/villa58.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Villa 58 – Marrakech | Location de luxe{% endblock %}
+
+{% block body %}
+
+<div class="v58">
+  <div class="container">
+    {# HERO #}
+    <section class="hero">
+      <div class="hero-media">
+        <img src="{{ asset('uploads/images/PhotoV58Facade2.jpg') }}" alt="Villa 58 Marrakech - façade au coucher du soleil">
+        <div class="hero-blur"></div>
+      </div>
+      <div class="hero-content">
+        <div class="stack" style="margin-bottom:14px">
+          <span class="pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.9L18.18 22 12 18.77 5.82 22 7 14.17l-5-4.9 6.91-1.01L12 2z" stroke="#c9a16b"/></svg>
+            Collection Signature
+          </span>
+          <span class="pill">Piscine chauffée &middot; Jardin privé &middot; Staff</span>
+        </div>
+        <h1 class="title">Villa 58 &nbsp;<span style="color:var(--brand)">— Marrakech</span></h1>
+        <p class="subtitle">Une adresse d’exception à 15 minutes de la Médina, pensée pour des séjours élégants, en famille ou entre amis.</p>
+        <div class="stack" style="margin-top:18px">
+          <a href="#contact" class="btn btn--gold">
+            Réserver maintenant
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="#1b1207" stroke-width="1.6"/></svg>
+          </a>
+          <a href="{{ asset('docs/villa58-brochure.pdf') }}" class="btn btn--ghost" target="_blank" rel="noopener">Télécharger la brochure</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# SECTION PRINCIPALE #}
+    <section class="grid grid--2">
+      <div class="card">
+        <div class="carousel" id="v58-carousel">
+          <div class="carousel-track" id="v58-track">
+            
+            {% for img in [
+              
+              'images/PhotoV58SalonCropped.jpg',
+              'images/PhotoV58Facade2.jpg',
+              'images/PhotoV58Facade.jpg',
+              
+            ] %}
+              <img src="{{ asset(img) }}" alt="Villa 58 - photo {{ loop.index }}">
+            {% endfor %}
+          </div>
+          <div class="carousel-nav">
+            <button class="btn btn--ghost" aria-label="Précédent" onclick="v58Prev()">‹</button>
+            <button class="btn btn--ghost" aria-label="Suivant" onclick="v58Next()">›</button>
+          </div>
+          <div class="dotbar" id="v58-dots"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="chip">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#c9a16b"/></svg>
+            Informations clés
+          </div>
+
+          <div class="metric"><span class="k">520 m²</span><span class="muted">de surface intérieure</span></div>
+          <div class="metric"><span class="k">5</span><span class="muted">suites avec salles de bain</span></div>
+          <div class="metric"><span class="k">10</span><span class="muted">voyageurs (enfants bienvenus)</span></div>
+          <div class="metric"><span class="k">Piscine 18 m</span><span class="muted">chauffée sur demande</span></div>
+          <div class="metric"><span class="k">Personnel</span><span class="muted">gouvernante & chef à domicile</span></div>
+
+          <div class="stack" style="margin-top:18px">
+            <span class="badge">Wifi fibre</span>
+            <span class="badge">Climatisation</span>
+            <span class="badge">Cheminée</span>
+            <span class="badge">Salle de sport</span>
+            <span class="badge">Transferts aéroport</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# AMENITIES + STORY #}
+    <section class="grid grid--2">
+      <div class="card">
+        <div class="card-body">
+          <h2 style="font-size:22px;margin-bottom:10px">L’expérience Villa 58</h2>
+          <p class="muted" style="line-height:1.7">
+            Nichée au cœur d’un parc paysager, la Villa 58 marie lignes contemporaines et artisanat marocain.
+            Grandes baies vitrées, marbre sablé, boiseries sur-mesure : chaque détail a été pensé pour sublimer la lumière de Marrakech.
+            Les terrasses ombragées entourent une piscine miroir de 18 mètres, parfaite pour des journées farniente.
+          </p>
+          <p class="muted" style="line-height:1.7;margin-top:10px">
+            Nos équipes orchestrent vos envies : petit-déjeuner quotidien, dîners aux chandelles, massages, escapades dans l’Atlas,
+            réservations des meilleurs rooftops. Votre séjour, à votre rythme.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h2 style="font-size:22px;margin-bottom:10px">Équipements & services</h2>
+          <div class="amenities">
+            {% set items = [
+              ['Piscine chauffée', 'Piscine miroir 18 m, transats & pool house'],
+              ['Chef privé', 'Menus marocains & méditerranéens'],
+              ['Housekeeping', 'Service quotidien discret'],
+              ['Climatisation', 'Confort intégral été/hiver'],
+              ['Salle de sport', 'Bike, rameur, haltères'],
+              ['Cinéma', 'Écran 100”, son immersif']
+            ] %}
+            {% for it in items %}
+              <div class="amenity">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#c9a16b" stroke-width="1.5"/></svg>
+                <div>
+                  <div style="font-weight:600">{{ it[0] }}</div>
+                  <div class="muted" style="font-size:14px">{{ it[1] }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="stack" style="margin-top:16px">
+            <a href="#contact" class="btn btn--gold">Vérifier les disponibilités</a>
+            <a href="#contact" class="btn">Demander un devis</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# GALLERY #}
+    <section>
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px">
+        <h2 style="font-size:22px">Galerie</h2>
+        <span class="muted">Survolez pour agrandir</span>
+      </div>
+      <div class="gal">
+        {% for img in 1..8 %}
+          <a href="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" data-fslightbox="v58">
+          
+            <img src="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" alt="Villa 58 - galerie {{ img }}">
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# LOCATION #}
+    <section class="grid grid--2">
+      <div class="card">
+        <div class="card-body">
+          <h2 style="font-size:22px;margin-bottom:10px">Localisation</h2>
+          <p class="muted" style="line-height:1.7">
+            Quartier résidentiel sécurisé, à <strong>15 min</strong> de la Médina et <strong>20 min</strong> de l’aéroport Marrakech-Menara.
+            Les golfs Royal & Al Maaden sont à proximité.
+          </p>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <span class="badge">Transfert aéroport inclus</span>
+            <span class="badge">Concierge 7j/7</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:10px">
+        {# Remplace la src par une carte embeddée Google Maps de la Villa #}
+        <iframe class="map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13336.000000!2d-7.981!3d31.628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3AVilla58!2sVilla%2058!5e0!3m2!1sfr!2sma!4v000000"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    {# CTA #}
+    <section id="contact" class="card">
+      <div class="card-body" style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between">
+        <div>
+          <div class="chip">Séjours sur-mesure</div>
+          <h3 style="margin:8px 0 4px;font-size:20px">Parlons de votre projet à la Villa 58</h3>
+          <p class="muted">Réponse sous 1h pendant nos horaires d’ouverture.</p>
+        </div>
+        <div class="stack">
+          <a href="#contact" class="btn btn--gold">Réserver la Villa 58</a>
+          <a href="#contact" class="btn">Contacter un concierge</a>
+        </div>
+      </div>
+    </section>
+
+    {# Données structurées (SEO LuxuryHotel / VacationRental) #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VacationRental",
+      "name": "Villa 58",
+      "description": "Villa contemporaine de luxe avec piscine chauffée, 5 suites, personnel et chef privé, à Marrakech.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Marrakech",
+        "addressCountry": "MA"
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Piscine chauffée", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Chef privé", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Salle de sport", "value": true}
+      ],
+      "numberOfRooms": 5,
+      "petsAllowed": false,
+      "image": [
+        "{{ asset('images/villa58/1.jpg') }}",
+        "{{ asset('images/villa58/2.jpg') }}",
+        "{{ asset('images/villa58/3.jpg') }}"
+      ],
+      "url": "{{ absolute_url(path('villa_58')) }}"
+    }
+    </script>
+  </div>
+</div>
+
+<script>
+  // Mini-carousel sans dépendances
+  (function(){
+    const track = document.getElementById('v58-track');
+    if(!track) return;
+    const slides = Array.from(track.children);
+    let idx = 0;
+
+    function update(){
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      const dots = document.querySelectorAll('#v58-dots .dot');
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+    }
+    function buildDots(){
+      const bar = document.getElementById('v58-dots');
+      slides.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===0 ? ' active':'');
+        d.addEventListener('click', ()=>{ idx = i; update(); });
+        bar.appendChild(d);
+      });
+    }
+    window.v58Next = function(){ idx = (idx + 1) % slides.length; update(); }
+    window.v58Prev = function(){ idx = (idx - 1 + slides.length) % slides.length; update(); }
+    buildDots(); update();
+  })();
+</script>
+{% endblock %}

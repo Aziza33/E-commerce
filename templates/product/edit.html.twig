@@ -34,6 +34,12 @@
                 {{ form_errors(form.price) }}
             </div>
 
+            {# <div class="col-md-6 mb-3">
+                {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                {{ form_widget(form.category, {'attr': {'class': 'form-select rounded-3 shadow-sm'}}) }}
+                {{ form_errors(form.category) }}
+            </div> #}
+
             <div class="col-md-6 mb-3">
                 {{ form_label(form.subCategory, 'Sous-catégorie', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
                 {{ form_widget(form.subCategory, {'attr': {'class': 'form-select rounded-3 shadow-sm'}}) }}

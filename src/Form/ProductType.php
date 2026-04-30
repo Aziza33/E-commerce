@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Entity\SubCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,6 +40,11 @@ class ProductType extends AbstractType
                 ])
             ]
             ])
+            // ->add('subCategory', EntityType::class, [
+            //     'class' => Category::class,
+            //     'choice_label' => 'name',
+            //     'multiple' => true,
+            // ]) 
             ->add('subCategory', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => 'name',

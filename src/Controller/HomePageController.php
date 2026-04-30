@@ -18,7 +18,7 @@ final class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page', methods: ('GET'))]
     public function index(SubCategoryRepository $subCategoryRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator): Response
     {   
-
+        // $this->addFlash("success", "test");
         // $search = $productRepository->searchEngine('Kamil');
         // dd($search);
 

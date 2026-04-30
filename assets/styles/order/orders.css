@@ -1,0 +1,19 @@
+.order-card {
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 1rem;
+      transition: .2s ease;
+      background: #fff;
+    }
+    .order-card:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      transform: translateY(-2px);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: .35rem .75rem;
+    }
+    @media (max-width: 576px) {
+      .kv { grid-template-columns: 1fr; }
+      .kv > div:first-child { font-weight: 600; }
+    }

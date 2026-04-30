@@ -5,7 +5,6 @@
 {% block body %}
 <div class="container pt-5">
     <h1 class="text-center mt-4 mb-4 pt-5">Liste des Produits</h1>
-    {% include 'layouts/flash_message.html.twig'%}
     <a href="{{ path('app_product_new') }}" class="btn btn-outline-success mb-3">Créer un nouveau produit</a>
     
     {# <a href="{{ path('app_product_stock_add_history', {'id': product.id}) }}" class="btn btn-primary mb-3">Stock</a> #}
