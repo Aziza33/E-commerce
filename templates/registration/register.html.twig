@@ -8,10 +8,8 @@
 <div class="form-register text-center w-100">
     <h2 class="text-center mb-4 pt-5">Créer un compte</h2>
     {# Affichage Erreur en 3 étapes 1/ UniqueEntity ds le l'Entity Users.php 2/ on rajoute le code ci-dessous #}
-    {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
-        
            <div class="mb-3 text-start">
         {# {{ form_label(registrationForm.firstname, null, {'label_attr': {'class': 'form-label'}}) }} #}
         {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control rounded-3', 'placeholder': "First name"}}) }}
@@ -36,7 +34,7 @@
         'attr': {'class': 'form-control', 'placeholder': "Mot de passe"}
     }) }}
     </div>
-
+{{ form_errors(registrationForm.plainPassword.first) }}
     <div class="mb-3">
     {# <label for="registration_form_plainPassword_second" class="form-label text-start w-100">Confirmer le mot de passe</label> #}
     {{ form_widget(registrationForm.plainPassword.second, {

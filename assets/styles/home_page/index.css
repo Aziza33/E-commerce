@@ -1,0 +1,195 @@
+  /* Hero section premium */
+  .hero {
+      padding-top: 0;
+      position: relative;
+      background-image: url('../../images/hero-desktop.jpg');
+      background-image: url('../../images/PhotoV58Salon.jpg');
+      background-image: url('../../images/PhotoV58SalonCropped.jpg');
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      /* height: 100vh; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+
+      /* MODIF RESPONSIVE pour améliorer le responsive du hero */
+      /* min-height: 100vh !important; */
+      min-height: 100vh;
+      padding: clamp(16px, 5vh, 48px);
+  }
+
+  #heroId {
+      padding-top: 0 !important;
+  }
+
+  /* MODIF RESPONSIVE */
+  @supports (height: 100dvh) {
+      .hero {
+          height dvh;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .hero {
+          background-image: url('../../images/facade-hero-mobile.jpg');
+          height: auto;
+          aspect-ratio: 4 / 5;
+          min-height: 70vh;
+      }
+
+      .hero-title {
+          font-size: 2.5rem;
+          font-weight: bold;
+      }
+
+      .hero-subtitle {
+          font-size: 1.4rem;
+          margin-bottom: 25px;
+          font-weight: 300;
+      }
+  }
+
+  .hero-overlay {
+      /* filtre assombrissant intéressant 0.35 car 0.55 trop sombre*/
+      background: rgba(0, 0, 0, 0.25);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+
+  .hero-content {
+      position: relative;
+      z-index: 2;
+  }
+
+  .hero-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+  }
+
+  .hero-subtitle {
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      font-weight: 300;
+  }
+
+  /* Product cards premium */
+  .product-card {
+      border: none;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      margin: 15px;
+      /* Marge autour de chaque card */
+      background: white;
+      /* height: 300px; */
+  }
+
+  .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(218, 165, 32, 0.35);
+      /* doré */
+      box-shadow: 0 10px 30px rgba(36, 30, 13, 0.35);
+
+  }
+
+  .product-img {
+      /* height: 260px; */
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      
+      max-height: 50%;
+     
+  }
+
+  .product-card:hover .product-img {
+      transform: scale(1.03);
+  }
+
+  .product-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      font-family: 'Playfair Display', serif;
+      margin: 2%;
+  }
+
+  .product-price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #bfa14a;
+      /* Doré luxe */
+      font-family: 'Playfair Display', serif;
+      margin: 2%;
+  }
+
+  .product-description {
+      font-size: 0.95rem;
+      color: #666;
+      font-family: 'Lora', serif;
+      margin: 2%;
+  }
+
+  .container-premium {
+      padding-left: 30px;
+      padding-right: 30px;
+  }
+
+  /* .lienAjouterPanier{
+            margin-left: 5%;
+            text-decoration: none;
+        } */
+
+  .btn-sobre {
+      background: #111;
+      /* noir profond */
+      color: #fff;
+      /* texte blanc */
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      /* espace entre icône et texte */
+      transition: all 0.25s ease;
+  }
+
+  .btn-sobre .icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+  }
+
+  .btn-sobre:hover {
+      background: #222;
+      /* léger éclaircissement */
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-sobre:active {
+      background: #000;
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-sobre:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #fff,
+          0 0 0 4px #000;
+  }

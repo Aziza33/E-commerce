@@ -18,7 +18,6 @@ final class StripeController extends AbstractController
     {
         $this->addFlash('success', 'Votre paiement a bien été effectué');
 
-        dd($order);
         return $this->render('stripe/index.html.twig', [
             'controller_name' => 'StripeController',
         ]);

@@ -1,8 +1,34 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }} alert-dismissible fade show mt-3" role="alert">
+        {# <div class="alert alert-{{ label }} alert-dismissible fade show mt-3" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div> #}
+
+
+        <!-- Flexbox container for aligning the toasts -->
+
+        <div aria-live="polite" aria-atomic="true" class="toast-container p-3 bottom-0 end-0 fixed-top top-50 start-50 text-center">
+
+            <!-- Then put toasts within -->
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                <i class="fa-solid {{ 'fa-' ~ (label == 'success' ? 'check' : 'triangle-exclamation')}}"></i>
+
+                {# <img src="{{ asset('images/' ~ label ~ '.svg') }}" class="rounded me-2" alt="..."> #}
+                {# <strong class="me-auto">Bootstrap</strong> #}
+                <small>{{label}}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body text-{{label}}">
+                {{ message }}
+                </div>
+            </div>
         </div>
     {% endfor %}
 {% endfor %}
+<script>
+    const toastLiveExample = document.querySelector('.toast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    toastBootstrap.show()
+</script>

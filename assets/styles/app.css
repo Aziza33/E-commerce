@@ -1,21 +1,21 @@
+body {
+    /* background-color: #f5f7fa; */
+    background-color: #fffcf8;
+    /* background-color: #EFF0F4; */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "Playfair Display", serif;
+    /* padding-top: 90px; */
+}
 
-body{
-                /* background-color: #f5f7fa; */
-                background-color: #FFFCF8;
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
-                font-family: 'Playfair Display', serif;
-                /* padding-top: 90px; */
-            }
-           
 .form-register {
-                max-width: 500px;
-                margin: 50px auto;
-                background: white;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* .loginForm{
@@ -25,8 +25,8 @@ body{
 /* .................    NAVBAR   ............. */
 /* Navbar luxe */
 .custom-navbar {
-    background: rgba(0, 0, 0, 0.5); /* transparent noir élégant */
-    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.1); /* transparent noir élégant */
+    backdrop-filter: blur(1px);
     padding: 10px 0;
     transition: background 0.3s ease-in-out;
 }
@@ -38,12 +38,11 @@ body{
 .logo-navbar {
     height: 70px;
     margin-left: 1em;
- 
 }
 
 .navbar-nav .nav-link {
     color: white;
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
     font-size: 1rem;
     padding: 10px 15px;
     transition: color 0.3s ease;
@@ -61,7 +60,7 @@ body{
 
 .dropdown-item {
     color: white;
-    font-family: 'Lora', serif;
+    font-family: "Lora", serif;
 }
 
 .dropdown-item:hover {
@@ -85,11 +84,87 @@ body{
 }
 
 .panierNav {
-     margin-left: 5em;
+    margin-left: 5em;
 }
 
 /* ...........................    HERO SECTION PAGE ACCUEIL .......................................... */
 
+/* flash icon */
+.fa-check {
+    color: green;
+}
 
+.fa-triangle-exclamation {
+    color: red;
+}
 
+ .reservation-bar-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 25px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+    font-family: 'Lora', serif;
+    z-index: 9999; /* Toujours devant */
+}
 
+.reservation-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-item label {
+    font-size: 0.8rem;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.reservation-item input,
+.reservation-item select {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+.divider {
+    width: 1px;
+    background: #ddd;
+    height: 40px;
+}
+
+.btn-reserve {
+    background: #bfa14a;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+.btn-reserve:hover {
+    background: #a78d3f;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .reservation-bar-fixed {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        border-radius: 0;
+        padding: 15px;
+    }
+    .divider {
+        display: none;
+    }
+}

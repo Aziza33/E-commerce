@@ -22,24 +22,29 @@ W - Won't (have)
     - Fuseau horaire
     - ne pas avoir à rafraichir la navbar pour accéder au menu
 
-    - newsletter,
+    - création d'un système de newsletter
     - blog
     - reservation
 
     - produits (section review), 
     - filtre par type de catégorie, 
     - bootstrap en dépendance 
-    - Css
     - Audit SEO (lighthouse)
+    - Gestion des clients
+    - Améliorer espace client pour retrouver ses commandes, ses favoris
 
 - C : slugg
 
 - CSS :
     - padding-top pour voir le ht de la page
     - crop l'image de hero section (moins de plafond)
+    - [] message toast de validation etc centré et esthétique
 
 - Bugs divers :
-    - hero avec bad image en résultat de recherche
+    - hero avec bad image en résultat de recherche (détails produit)
+    - navbar besoin de rafraichir pour que ça fonctionne
+    - qd tu cliques sur l'image, on n'a pas accès au détail produit à modifier
+    - qd admin, on ne voit pas notre boutique ds navbar
 
 - Pour voir ce fichier Ctrl Shift V
 Pour barrer une tâche effectuée alt GR tilde 2 fois

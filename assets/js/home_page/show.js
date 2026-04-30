@@ -1,0 +1,1 @@
+import '../../styles/home_page/show.css';

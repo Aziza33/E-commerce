@@ -1,0 +1,1 @@
+import '../../styles/bill/index.css';
