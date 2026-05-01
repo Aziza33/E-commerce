@@ -114,4 +114,17 @@ final class UserController extends AbstractController
         // Retourne la route
         return $this->redirectToRoute('app_user');
     }
+
+    // ......................  Route Mon Profil ...............
+
+        #[Route('/mon-profil', name: 'app_user_profile')]
+    #[IsGranted('ROLE_USER')]
+    public function profil(): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('user/profil.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }

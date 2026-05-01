@@ -17,6 +17,7 @@
                      
 
                     <form method="post" class="form loginForm">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
@@ -39,8 +40,6 @@
                         <div class="mb-3">
                             <label for="inputPassword" class="form-label">Mot de passe</label>
                             <input type="password" name="password" id="inputPassword" class="form-control" required>
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
                         </div>
 
                         <div class="d-grid">

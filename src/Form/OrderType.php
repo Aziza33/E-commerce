@@ -4,40 +4,61 @@ namespace App\Form;
 
 use App\Entity\City;
 use App\Entity\Order;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OrderType extends AbstractType
 {
+
+    private ?User $user = null;
+
+    public function __construct(Security $security)
+    {
+        $this->user = $security->getUser();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', null, [
+            ->add('firstName', TextType::class, [
+                'data' => $this->user->getFirstName(),
                 'required' => true,
                 'attr' => [
-                    'class'=>'form form-control', 'v'
+                    'class' => 'form form-control',
                 ]
             ])
-            ->add('lastName', null, [
+            ->add('lastName', TextType::class, [
+                'data' => $this->user->getLastName(),
                 'attr' => [
-                    'class'=>'form form-control', 'v'
+                    'class' => 'form form-control',
                 ]
             ])
-            ->add('email', null, [
+            ->add('email', TextType::class, [
+                'data' => $this->user->getEmail(),
                 'attr' => [
-                    'class'=>'form form-control', 'v@v.fr'
+                    'class' => 'form form-control',
                 ]
             ])
-            ->add('phone', null, [
+            ->add('phoneNumber', TelType::class, [
+                'data' => $this->user->getPhoneNumber(),
                 'attr' => [
-                    'class'=>'form form-control', '00'
+                    'class' => 'form form-control',
+                    '00'
                 ]
             ])
-            ->add('address', null, [
+            ->add('address', TextType::class, [
+                'data' => $this->user->getAddress(),
                 'attr' => [
-                    'class'=>'form form-control', 'v'
+                    'class' => 'form form-control',
+                    'v'
                 ]
             ])
             // ->add('createdAt', null, [
@@ -46,16 +67,30 @@ class OrderType extends AbstractType
             //         'widget' => 'single_text',
             //     ]
             // ])
-            
+
             ->add('city', EntityType::class, [
+                'data' => $this->user->getCity(),
                 'class' => City::class,
                 'choice_label' => 'name',
-                'attr'=>[
-                    'class'=>'form form-control'
+                'attr' => [
+                    'class' => 'form form-control'
                 ]
             ])
-            ->add('payOnDelivery', null, [
-                'label' => 'Payez à la livraison'
+             ->add('zipCode', TextType::class, [
+                'data' => $this->user->getZipCode(),
+                'attr' => [
+                    'class' => 'form form-control',
+                ]
+            ])
+            ->add('payOnDelivery', CheckboxType::class, [
+                'label' => 'Payez à la livraison',
+                'required' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Valider',
+                'attr' => [
+                    'class' => 'btn btn-outline-primary'
+                ]
             ])
         ;
     }
@@ -63,7 +98,7 @@ class OrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Order::class,
+            'data_class' => null,
         ]);
     }
 }

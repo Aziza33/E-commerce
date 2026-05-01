@@ -12,7 +12,7 @@
   {# Logo éventuel ici #}
   <h2>Confirmation de commande</h2>
   <hr>
-  <p>Bonjour {{ order.firstname }} {{ order.lastname }}, <br>
+  <p>Bonjour {{ app.user.firstname }} {{ app.user.lastname }}, <br>
   Nous vous remercions pour votre commande. <br>
   Elle sera traitée dans les plus brefs délais.
   </p>
@@ -44,8 +44,8 @@
   </tbody>
 </table>
 
-<p>Frais de livraison : {{ order.city.shippingCost }} €</p>
-<h3 class="mb-5">Total à payer : {{ order.totalPrice + order.city.shippingCost }} €</h3>
+<p>Frais de livraison : {{ app.user.city.shippingCost }} €</p>
+<h3 class="mb-5">Total à payer : {{ order.totalPrice + app.user.city.shippingCost }} €</h3>
 <p>Nous restons à votre disposition pour tout renseignemement complémentaire. <br>
 Bien cordialement.</p>
 {% endblock %}
