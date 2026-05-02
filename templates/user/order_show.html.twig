@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail commande{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+
+    <a href="{{ path('app_user_orders') }}" class="btn btn-outline-secondary mb-4">
+        Retour à mes commandes
+    </a>
+
+    <h1 class="mb-4">Commande #{{ order.id }}</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Informations commande
+        </div>
+
+        <div class="card-body">
+            <p><strong>Date :</strong> {{ order.createdAt|date('d/m/Y H:i') }}</p>
+            <p><strong>Total :</strong> {{ order.totalPrice|number_format(2, ',', ' ') }} €</p>
+
+            <p>
+                <strong>Paiement :</strong>
+                {% if order.isPaymentCompleted %}
+                    <span class="badge bg-success">Payée</span>
+                {% elseif order.payOnDelivery %}
+                    <span class="badge bg-warning text-dark">Paiement à la livraison</span>
+                {% else %}
+                    <span class="badge bg-danger">Non payée</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Produits commandés
+        </div>
+
+        <div class="card-body">
+            {% if order.orderProducts is empty %}
+                <p>Aucun produit trouvé.</p>
+            {% else %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for orderProduct in order.orderProducts %}
+                            <tr>
+                                <td>{{ orderProduct.product.name }}</td>
+                                <td>{{ orderProduct.product.price|number_format(2, ',', ' ') }} €</td>
+                                <td>{{ orderProduct.quantity }}</td>
+                                <td>
+                                    {{ (orderProduct.product.price * orderProduct.quantity)|number_format(2, ',', ' ') }} €
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

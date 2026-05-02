@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserProfileType;
+use App\Repository\OrderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 final class UserController extends AbstractController
@@ -127,4 +130,62 @@ final class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    // .....................  Modifier mon profil  ...............................
+
+   #[Route('/mon-profil/modifier', name: 'app_user_profile_edit')]
+#[IsGranted('ROLE_USER')]
+public function editProfile(
+    Request $request,
+    EntityManagerInterface $entityManager,
+    UserPasswordHasherInterface $userPasswordHasher
+): Response {
+    /** @var User $user */
+    $user = $this->getUser();
+
+    $form = $this->createForm(UserProfileType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $plainPassword = $form->get('plainPassword')->getData();
+
+        if (!empty($plainPassword)) {
+            $hashedPassword = $userPasswordHasher->hashPassword(
+                $user,
+                $plainPassword
+            );
+
+            $user->setPassword($hashedPassword);
+        }
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre profil a bien été modifié.');
+
+        return $this->redirectToRoute('app_profile');
+    }
+
+    return $this->render('user/edit_profile.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+//  ..........................  Mes commandes ............................
+
+    #[Route('/mon-profil/mes-commandes', name: 'app_user_orders')]
+    #[IsGranted('ROLE_USER')]
+    public function myOrders(OrderRepository $orderRepository): Response
+    {
+        $user = $this->getUser();
+
+        $orders = $orderRepository->findBy(
+            ['user' => $user],
+            ['createdAt' => 'DESC']
+        );
+
+        return $this->render('user/orders.html.twig', [
+            'orders' => $orders,
+        ]);
+    }
+
+    
 }

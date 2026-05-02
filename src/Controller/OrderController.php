@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class OrderController extends AbstractController
 {
@@ -207,5 +208,21 @@ class OrderController extends AbstractController
         return $this->redirectToRoute('app_orders_show');
     }
     #endregion DELETE
+
+    #region AFFICHER ORDERS
+
+    #[Route('/mon-profil/commande/{id}', name: 'app_user_order_show')]
+    #[IsGranted('ROLE_USER')]
+    public function userOrderShow(Order $order): Response
+    {
+        if ($order->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas consulter cette commande.');
+        }
+
+        return $this->render('user/order_show.html.twig', [
+            'order' => $order,
+        ]);
+    }
+    #endregion AFFICHER ORDERS
 
 }

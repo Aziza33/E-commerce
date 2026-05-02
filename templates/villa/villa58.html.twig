@@ -6,247 +6,1078 @@
 {% block body %}
 
 <div class="v58">
-  <div class="container">
+
     {# HERO #}
-    <section class="hero">
-      <div class="hero-media">
-        <img src="{{ asset('uploads/images/PhotoV58Facade2.jpg') }}" alt="Villa 58 Marrakech - façade au coucher du soleil">
-        <div class="hero-blur"></div>
-      </div>
-      <div class="hero-content">
-        <div class="stack" style="margin-bottom:14px">
-          <span class="pill">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.9L18.18 22 12 18.77 5.82 22 7 14.17l-5-4.9 6.91-1.01L12 2z" stroke="#c9a16b"/></svg>
-            Collection Signature
-          </span>
-          <span class="pill">Piscine chauffée &middot; Jardin privé &middot; Staff</span>
+    <section class="v58-hero">
+        <div class="v58-hero-bg">
+            <img src="{{ asset('uploads/images/PhotoV58Facade2.jpg') }}" alt="Villa 58 Marrakech - façade au coucher du soleil">
+            <div class="v58-hero-overlay"></div>
         </div>
-        <h1 class="title">Villa 58 &nbsp;<span style="color:var(--brand)">— Marrakech</span></h1>
-        <p class="subtitle">Une adresse d’exception à 15 minutes de la Médina, pensée pour des séjours élégants, en famille ou entre amis.</p>
-        <div class="stack" style="margin-top:18px">
-          <a href="#contact" class="btn btn--gold">
-            Réserver maintenant
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="#1b1207" stroke-width="1.6"/></svg>
-          </a>
-          <a href="{{ asset('docs/villa58-brochure.pdf') }}" class="btn btn--ghost" target="_blank" rel="noopener">Télécharger la brochure</a>
-        </div>
-      </div>
-    </section>
 
-    <div class="divider"></div>
+        <div class="container">
+            <div class="v58-hero-content">
+                <div class="v58-eyebrow">
+                    {# <span class="v58-pill v58-pill-gold">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.9L18.18 22 12 18.77 5.82 22 7 14.17l-5-4.9 6.91-1.01L12 2z"
+                                  stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        Collection Signature
+                    </span> #}
 
-    {# SECTION PRINCIPALE #}
-    <section class="grid grid--2">
-      <div class="card">
-        <div class="carousel" id="v58-carousel">
-          <div class="carousel-track" id="v58-track">
-            
-            {% for img in [
-              
-              'images/PhotoV58SalonCropped.jpg',
-              'images/PhotoV58Facade2.jpg',
-              'images/PhotoV58Facade.jpg',
-              
-            ] %}
-              <img src="{{ asset(img) }}" alt="Villa 58 - photo {{ loop.index }}">
-            {% endfor %}
-          </div>
-          <div class="carousel-nav">
-            <button class="btn btn--ghost" aria-label="Précédent" onclick="v58Prev()">‹</button>
-            <button class="btn btn--ghost" aria-label="Suivant" onclick="v58Next()">›</button>
-          </div>
-          <div class="dotbar" id="v58-dots"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body">
-          <div class="chip">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#c9a16b"/></svg>
-            Informations clés
-          </div>
-
-          <div class="metric"><span class="k">520 m²</span><span class="muted">de surface intérieure</span></div>
-          <div class="metric"><span class="k">5</span><span class="muted">suites avec salles de bain</span></div>
-          <div class="metric"><span class="k">10</span><span class="muted">voyageurs (enfants bienvenus)</span></div>
-          <div class="metric"><span class="k">Piscine 18 m</span><span class="muted">chauffée sur demande</span></div>
-          <div class="metric"><span class="k">Personnel</span><span class="muted">gouvernante & chef à domicile</span></div>
-
-          <div class="stack" style="margin-top:18px">
-            <span class="badge">Wifi fibre</span>
-            <span class="badge">Climatisation</span>
-            <span class="badge">Cheminée</span>
-            <span class="badge">Salle de sport</span>
-            <span class="badge">Transferts aéroport</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    {# AMENITIES + STORY #}
-    <section class="grid grid--2">
-      <div class="card">
-        <div class="card-body">
-          <h2 style="font-size:22px;margin-bottom:10px">L’expérience Villa 58</h2>
-          <p class="muted" style="line-height:1.7">
-            Nichée au cœur d’un parc paysager, la Villa 58 marie lignes contemporaines et artisanat marocain.
-            Grandes baies vitrées, marbre sablé, boiseries sur-mesure : chaque détail a été pensé pour sublimer la lumière de Marrakech.
-            Les terrasses ombragées entourent une piscine miroir de 18 mètres, parfaite pour des journées farniente.
-          </p>
-          <p class="muted" style="line-height:1.7;margin-top:10px">
-            Nos équipes orchestrent vos envies : petit-déjeuner quotidien, dîners aux chandelles, massages, escapades dans l’Atlas,
-            réservations des meilleurs rooftops. Votre séjour, à votre rythme.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body">
-          <h2 style="font-size:22px;margin-bottom:10px">Équipements & services</h2>
-          <div class="amenities">
-            {% set items = [
-              ['Piscine chauffée', 'Piscine miroir 18 m, transats & pool house'],
-              ['Chef privé', 'Menus marocains & méditerranéens'],
-              ['Housekeeping', 'Service quotidien discret'],
-              ['Climatisation', 'Confort intégral été/hiver'],
-              ['Salle de sport', 'Bike, rameur, haltères'],
-              ['Cinéma', 'Écran 100”, son immersif']
-            ] %}
-            {% for it in items %}
-              <div class="amenity">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#c9a16b" stroke-width="1.5"/></svg>
-                <div>
-                  <div style="font-weight:600">{{ it[0] }}</div>
-                  <div class="muted" style="font-size:14px">{{ it[1] }}</div>
+                    {# <span class="v58-pill">
+                        Piscine chauffée · Jardin privé · Staff
+                    </span> #}
                 </div>
-              </div>
-            {% endfor %}
-          </div>
-          <div class="stack" style="margin-top:16px">
-            <a href="#contact" class="btn btn--gold">Vérifier les disponibilités</a>
-            <a href="#contact" class="btn">Demander un devis</a>
-          </div>
+
+                <h1>
+                    Villa Sense
+                    <span>Marrakech</span>
+                </h1>
+
+                <p class="v58-hero-subtitle">
+                    Une adresse d’exception à 15 minutes de la Médina, pensée pour des séjours élégants,
+                    en famille ou entre amis.
+                </p>
+
+                <div class="v58-hero-actions">
+                    <a href="#contact" class="v58-btn v58-btn-gold">
+                        Réserver maintenant
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+
+                    <a href="{{ asset('docs/villa58-brochure.pdf') }}" class="v58-btn v58-btn-glass" target="_blank" rel="noopener">
+                        Télécharger la brochure
+                    </a>
+                </div>
+
+                {# <div class="v58-hero-stats">
+                    <div>
+                        <strong>5</strong>
+                        <span>Suites</span>
+                    </div>
+                    <div>
+                        <strong>10</strong>
+                        <span>Voyageurs</span>
+                    </div>
+                    <div>
+                        <strong>18 m</strong>
+                        <span>Piscine miroir</span>
+                    </div>
+                </div> #}
+            </div>
         </div>
-      </div>
     </section>
 
-    <div class="divider"></div>
+    <main class="v58-main">
+        <div class="container">
 
-    {# GALLERY #}
-    <section>
-      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px">
-        <h2 style="font-size:22px">Galerie</h2>
-        <span class="muted">Survolez pour agrandir</span>
-      </div>
-      <div class="gal">
-        {% for img in 1..8 %}
-          <a href="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" data-fslightbox="v58">
-          
-            <img src="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" alt="Villa 58 - galerie {{ img }}">
-          </a>
-        {% endfor %}
-      </div>
-    </section>
+            {# INTRO #}
+            <section class="v58-section v58-intro">
+                <div>
+                    <span class="v58-section-kicker">Luxe discret à Marrakech</span>
+                    <h2>Une villa pensée comme une maison privée d’exception.</h2>
+                </div>
 
-    <div class="divider"></div>
+                <p>
+                    La Villa 58 associe architecture contemporaine, artisanat marocain et service hôtelier sur-mesure.
+                    Chaque espace a été imaginé pour offrir confort, intimité et élégance.
+                </p>
+            </section>
 
-    {# LOCATION #}
-    <section class="grid grid--2">
-      <div class="card">
-        <div class="card-body">
-          <h2 style="font-size:22px;margin-bottom:10px">Localisation</h2>
-          <p class="muted" style="line-height:1.7">
-            Quartier résidentiel sécurisé, à <strong>15 min</strong> de la Médina et <strong>20 min</strong> de l’aéroport Marrakech-Menara.
-            Les golfs Royal & Al Maaden sont à proximité.
-          </p>
-          <div style="display:flex;gap:10px;margin-top:10px">
-            <span class="badge">Transfert aéroport inclus</span>
-            <span class="badge">Concierge 7j/7</span>
-          </div>
+            {# SECTION PRINCIPALE #}
+            <section class="v58-grid v58-grid-2 v58-section">
+
+                <div class="v58-card v58-media-card">
+                    <div class="v58-carousel" id="v58-carousel">
+                        <div class="v58-carousel-track" id="v58-track">
+
+                            {% for img in [
+                                'images/PhotoV58SalonCropped.jpg',
+                                'images/PhotoV58Facade2.jpg',
+                                'images/PhotoV58Facade.jpg'
+                            ] %}
+                                <img src="{{ asset(img) }}" alt="Villa 58 - photo {{ loop.index }}">
+                            {% endfor %}
+                        </div>
+
+                        <div class="v58-carousel-gradient"></div>
+
+                        <div class="v58-carousel-nav">
+                            <button class="v58-carousel-btn" aria-label="Précédent" onclick="v58Prev()">‹</button>
+                            <button class="v58-carousel-btn" aria-label="Suivant" onclick="v58Next()">›</button>
+                        </div>
+
+                        <div class="v58-dotbar" id="v58-dots"></div>
+                    </div>
+                </div>
+
+                <div class="v58-card">
+                    <div class="v58-card-body">
+                        <div class="v58-chip">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.7"
+                                      stroke-linecap="round"/>
+                            </svg>
+                            Informations clés
+                        </div>
+
+                        <div class="v58-metrics">
+                            <div class="v58-metric">
+                                <span>520 m²</span>
+                                <small>de surface intérieure</small>
+                            </div>
+
+                            <div class="v58-metric">
+                                <span>5</span>
+                                <small>suites avec salles de bain</small>
+                            </div>
+
+                            <div class="v58-metric">
+                                <span>10</span>
+                                <small>voyageurs, enfants bienvenus</small>
+                            </div>
+
+                            <div class="v58-metric">
+                                <span>Piscine 18 m</span>
+                                <small>chauffée sur demande</small>
+                            </div>
+
+                            <div class="v58-metric">
+                                <span>Personnel</span>
+                                <small>gouvernante & chef à domicile</small>
+                            </div>
+                        </div>
+
+                        <div class="v58-badges">
+                            <span>Wifi fibre</span>
+                            <span>Climatisation</span>
+                            <span>Cheminée</span>
+                            <span>Salle de sport</span>
+                            <span>Transferts aéroport</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {# AMENITIES + STORY #}
+            <section class="v58-grid v58-grid-2 v58-section">
+                <div class="v58-card">
+                    <div class="v58-card-body">
+                        <span class="v58-section-kicker">L’expérience</span>
+                        <h2 class="v58-card-title">Un art de vivre entre lumière, calme et raffinement.</h2>
+
+                        <p class="v58-text">
+                            Nichée au cœur d’un parc paysager, la Villa 58 marie lignes contemporaines et artisanat marocain.
+                            Grandes baies vitrées, marbre sablé, boiseries sur-mesure : chaque détail a été pensé pour sublimer
+                            la lumière de Marrakech.
+                        </p>
+
+                        <p class="v58-text">
+                            Les terrasses ombragées entourent une piscine miroir de 18 mètres, parfaite pour des journées farniente.
+                            Nos équipes orchestrent vos envies : petit-déjeuner quotidien, dîners aux chandelles, massages,
+                            escapades dans l’Atlas, réservations des meilleurs rooftops.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="v58-card">
+                    <div class="v58-card-body">
+                        <span class="v58-section-kicker">Services inclus & sur demande</span>
+                        <h2 class="v58-card-title">Équipements & services</h2>
+
+                        <div class="v58-amenities">
+                            {% set items = [
+                                ['Piscine chauffée', 'Piscine miroir 18 m, transats & pool house'],
+                                ['Chef privé', 'Menus marocains & méditerranéens'],
+                                ['Housekeeping', 'Service quotidien discret'],
+                                ['Climatisation', 'Confort intégral été/hiver'],
+                                ['Salle de sport', 'Bike, rameur, haltères'],
+                                ['Cinéma', 'Écran 100”, son immersif']
+                            ] %}
+
+                            {% for it in items %}
+                                <div class="v58-amenity">
+                                    <div class="v58-check">
+                                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                                            <path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2"
+                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+
+                                    <div>
+                                        <strong>{{ it[0] }}</strong>
+                                        <span>{{ it[1] }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="v58-actions">
+                            <a href="#contact" class="v58-btn v58-btn-gold">Vérifier les disponibilités</a>
+                            <a href="#contact" class="v58-btn v58-btn-light">Demander un devis</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {# GALLERY #}
+            <section class="v58-section">
+                <div class="v58-section-heading">
+                    <div>
+                        <span class="v58-section-kicker">Galerie privée</span>
+                        <h2>Quelques instants à la Villa 58</h2>
+                    </div>
+                    <p>Survolez les images pour les agrandir.</p>
+                </div>
+
+                <div class="v58-gallery">
+                    {% for img in 1..8 %}
+                        <a href="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" data-fslightbox="v58">
+                            <img src="{{ asset('images/villa58/' ~ img ~ '.jpg') }}" alt="Villa 58 - galerie {{ img }}">
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {# LOCATION #}
+            <section class="v58-grid v58-grid-2 v58-section">
+                <div class="v58-card">
+                    <div class="v58-card-body">
+                        <span class="v58-section-kicker">Situation</span>
+                        <h2 class="v58-card-title">Une localisation idéale pour profiter de Marrakech.</h2>
+
+                        <p class="v58-text">
+                            Quartier résidentiel sécurisé, à <strong>15 min</strong> de la Médina et
+                            <strong>20 min</strong> de l’aéroport Marrakech-Menara. Les golfs Royal & Al Maaden
+                            sont à proximité.
+                        </p>
+
+                        <div class="v58-location-list">
+                            <div>
+                                <strong>15 min</strong>
+                                <span>Médina</span>
+                            </div>
+
+                            <div>
+                                <strong>20 min</strong>
+                                <span>Aéroport</span>
+                            </div>
+
+                            <div>
+                                <strong>7j/7</strong>
+                                <span>Conciergerie</span>
+                            </div>
+                        </div>
+
+                        <div class="v58-badges">
+                            <span>Transfert aéroport inclus</span>
+                            <span>Concierge 7j/7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="v58-card v58-map-card">
+                    <iframe class="v58-map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13336.000000!2d-7.981!3d31.628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3AVilla58!2sVilla%2058!5e0!3m2!1sfr!2sma!4v000000"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </section>
+
+            {# CTA #}
+            <section id="contact" class="v58-cta v58-section">
+                <div>
+                    <span class="v58-section-kicker">Séjours sur-mesure</span>
+                    <h2>Parlons de votre projet à la Villa 58</h2>
+                    <p>
+                        Réponse sous 1h pendant nos horaires d’ouverture. Notre conciergerie vous accompagne
+                        pour imaginer un séjour parfaitement adapté à vos envies.
+                    </p>
+                </div>
+
+                <div class="v58-cta-actions">
+                    <a href="#contact" class="v58-btn v58-btn-gold">Réserver la Villa 58</a>
+                    <a href="#contact" class="v58-btn v58-btn-light">Contacter un concierge</a>
+                </div>
+            </section>
+
+            {# Données structurées SEO #}
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "VacationRental",
+              "name": "Villa 58",
+              "description": "Villa contemporaine de luxe avec piscine chauffée, 5 suites, personnel et chef privé, à Marrakech.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Marrakech",
+                "addressCountry": "MA"
+              },
+              "amenityFeature": [
+                {"@type": "LocationFeatureSpecification", "name": "Piscine chauffée", "value": true},
+                {"@type": "LocationFeatureSpecification", "name": "Chef privé", "value": true},
+                {"@type": "LocationFeatureSpecification", "name": "Salle de sport", "value": true}
+              ],
+              "numberOfRooms": 5,
+              "petsAllowed": false,
+              "image": [
+                "{{ asset('images/villa58/1.jpg') }}",
+                "{{ asset('images/villa58/2.jpg') }}",
+                "{{ asset('images/villa58/3.jpg') }}"
+              ],
+              "url": "{{ absolute_url(path('villa_58')) }}"
+            }
+            </script>
+
         </div>
-      </div>
-      <div class="card" style="padding:10px">
-        {# Remplace la src par une carte embeddée Google Maps de la Villa #}
-        <iframe class="map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13336.000000!2d-7.981!3d31.628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3AVilla58!2sVilla%2058!5e0!3m2!1sfr!2sma!4v000000"
-                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    {# CTA #}
-    <section id="contact" class="card">
-      <div class="card-body" style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between">
-        <div>
-          <div class="chip">Séjours sur-mesure</div>
-          <h3 style="margin:8px 0 4px;font-size:20px">Parlons de votre projet à la Villa 58</h3>
-          <p class="muted">Réponse sous 1h pendant nos horaires d’ouverture.</p>
-        </div>
-        <div class="stack">
-          <a href="#contact" class="btn btn--gold">Réserver la Villa 58</a>
-          <a href="#contact" class="btn">Contacter un concierge</a>
-        </div>
-      </div>
-    </section>
-
-    {# Données structurées (SEO LuxuryHotel / VacationRental) #}
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "VacationRental",
-      "name": "Villa 58",
-      "description": "Villa contemporaine de luxe avec piscine chauffée, 5 suites, personnel et chef privé, à Marrakech.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Marrakech",
-        "addressCountry": "MA"
-      },
-      "amenityFeature": [
-        {"@type": "LocationFeatureSpecification", "name": "Piscine chauffée", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Chef privé", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Salle de sport", "value": true}
-      ],
-      "numberOfRooms": 5,
-      "petsAllowed": false,
-      "image": [
-        "{{ asset('images/villa58/1.jpg') }}",
-        "{{ asset('images/villa58/2.jpg') }}",
-        "{{ asset('images/villa58/3.jpg') }}"
-      ],
-      "url": "{{ absolute_url(path('villa_58')) }}"
-    }
-    </script>
-  </div>
+    </main>
 </div>
+
+<style>
+    :root {
+        --v58-black: #111111;
+        --v58-dark: #1d1a17;
+        --v58-gold: #c9a16b;
+        --v58-gold-light: #ead8b8;
+        --v58-cream: #f6f0e8;
+        --v58-muted: #77716a;
+        --v58-border: rgba(17, 17, 17, 0.08);
+        --v58-shadow: 0 24px 70px rgba(0, 0, 0, 0.10);
+    }
+
+    .v58 {
+        background:
+            radial-gradient(circle at top left, rgba(201, 161, 107, 0.18), transparent 32%),
+            linear-gradient(180deg, #fbf8f4 0%, #f4eee6 100%);
+        color: var(--v58-dark);
+        overflow: hidden;
+    }
+
+    .v58 a {
+        text-decoration: none;
+    }
+
+    .v58-hero {
+        position: relative;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        padding: 150px 0 90px;
+        color: #fff;
+        isolation: isolate;
+    }
+
+    .v58-hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+    }
+
+    .v58-hero-bg img {
+        width: 100%;
+        height: 95%;
+        object-fit: cover;
+        transform: scale(1.04);
+        filter: saturate(0.96) contrast(1.04);
+    }
+
+    .v58-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.48) 45%, rgba(0, 0, 0, 0.18) 100%),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.65) 100%);
+        z-index: 1;
+    }
+
+    .v58-hero-content {
+        max-width: 780px;
+    }
+
+    .v58-eyebrow,
+    .v58-hero-actions,
+    .v58-actions,
+    .v58-badges {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .v58-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(14px);
+        font-size: 0.92rem;
+    }
+
+    .v58-pill-gold {
+        color: var(--v58-gold-light);
+        border-color: rgba(201, 161, 107, 0.42);
+        background: rgba(201, 161, 107, 0.13);
+    }
+
+    .v58-hero h1 {
+        margin: 24px 0 16px;
+        font-size: clamp(3.2rem, 8vw, 7rem);
+        line-height: 0.92;
+        font-weight: 800;
+        letter-spacing: -0.07em;
+    }
+
+    .v58-hero h1 span {
+        display: block;
+        color: var(--v58-gold-light);
+        font-size: clamp(2.2rem, 5vw, 4.8rem);
+        font-weight: 500;
+        letter-spacing: -0.05em;
+    }
+
+    .v58-hero-subtitle {
+        max-width: 650px;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        line-height: 1.65;
+    }
+
+    .v58-hero-actions {
+        margin-top: 30px;
+    }
+
+    .v58-btn {
+        min-height: 48px;
+        padding: 0.78rem 1.25rem;
+        border-radius: 999px;
+        border: 1px solid rgba(17, 17, 17, 0.12);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        font-weight: 700;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .v58-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .v58-btn-gold {
+        background: linear-gradient(135deg, #e7c78e, #b88745);
+        color: #1b1207;
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 18px 42px rgba(201, 161, 107, 0.28);
+    }
+
+    .v58-btn-gold:hover {
+        color: #1b1207;
+        box-shadow: 0 22px 50px rgba(201, 161, 107, 0.38);
+    }
+
+    .v58-btn-glass {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.30);
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(14px);
+    }
+
+    .v58-btn-glass:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.20);
+    }
+
+    .v58-btn-light {
+        background: #fff;
+        color: var(--v58-dark);
+        border-color: var(--v58-border);
+    }
+
+    .v58-btn-light:hover {
+        color: var(--v58-dark);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .v58-hero-stats {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 46px;
+    }
+
+    .v58-hero-stats div {
+        min-width: 130px;
+        padding: 18px 20px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(16px);
+    }
+
+    .v58-hero-stats strong {
+        display: block;
+        font-size: 1.55rem;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .v58-hero-stats span {
+        display: block;
+        margin-top: 6px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.9rem;
+    }
+
+    .v58-main {
+        padding: 90px 0;
+    }
+
+    .v58-section {
+        margin-bottom: 90px;
+    }
+
+    .v58-intro {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 50px;
+        align-items: end;
+    }
+
+    .v58-section-kicker {
+        display: inline-block;
+        margin-bottom: 10px;
+        color: #9b753e;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 800;
+    }
+
+    .v58-intro h2,
+    .v58-section-heading h2,
+    .v58-cta h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+        font-weight: 780;
+        color: var(--v58-dark);
+    }
+
+    .v58-intro p {
+        margin: 0;
+        color: var(--v58-muted);
+        line-height: 1.85;
+        font-size: 1.05rem;
+    }
+
+    .v58-grid {
+        display: grid;
+        gap: 28px;
+    }
+
+    .v58-grid-2 {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+
+    .v58-card {
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid var(--v58-border);
+        border-radius: 34px;
+        box-shadow: var(--v58-shadow);
+        overflow: hidden;
+    }
+
+    .v58-card-body {
+        padding: clamp(28px, 4vw, 44px);
+    }
+
+    .v58-media-card {
+        min-height: 520px;
+    }
+
+    .v58-carousel {
+        position: relative;
+        height: 100%;
+        min-height: 520px;
+        overflow: hidden;
+    }
+
+    .v58-carousel-track {
+        height: 100%;
+        display: flex;
+        transition: transform 0.6s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .v58-carousel-track img {
+        min-width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .v58-carousel-gradient {
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 38%;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.44));
+        pointer-events: none;
+    }
+
+    .v58-carousel-nav {
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        display: flex;
+        gap: 10px;
+        z-index: 3;
+    }
+
+    .v58-carousel-btn {
+        width: 46px;
+        height: 46px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.26);
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-size: 2rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(14px);
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .v58-carousel-btn:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.26);
+    }
+
+    .v58-dotbar {
+        position: absolute;
+        left: 24px;
+        bottom: 30px;
+        z-index: 3;
+        display: flex;
+        gap: 8px;
+    }
+
+    .v58-dotbar .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.42);
+        cursor: pointer;
+        transition: width 0.2s ease, background 0.2s ease;
+    }
+
+    .v58-dotbar .dot.active {
+        width: 28px;
+        border-radius: 999px;
+        background: var(--v58-gold-light);
+    }
+
+    .v58-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 13px;
+        border-radius: 999px;
+        background: rgba(201, 161, 107, 0.13);
+        color: #8f6b38;
+        font-weight: 800;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+    }
+
+    .v58-metrics {
+        display: grid;
+        gap: 14px;
+    }
+
+    .v58-metric {
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    }
+
+    .v58-metric:last-child {
+        border-bottom: none;
+    }
+
+    .v58-metric span {
+        display: block;
+        color: var(--v58-dark);
+        font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    .v58-metric small {
+        display: block;
+        margin-top: 4px;
+        color: var(--v58-muted);
+    }
+
+    .v58-badges {
+        margin-top: 22px;
+    }
+
+    .v58-badges span {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #f2eadf;
+        color: #715b3c;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border: 1px solid rgba(201, 161, 107, 0.22);
+    }
+
+    .v58-card-title {
+        margin: 0 0 18px;
+        font-size: clamp(1.45rem, 2.5vw, 2rem);
+        line-height: 1.18;
+        font-weight: 780;
+        letter-spacing: -0.04em;
+    }
+
+    .v58-text {
+        color: var(--v58-muted);
+        line-height: 1.85;
+        margin-bottom: 14px;
+    }
+
+    .v58-amenities {
+        display: grid;
+        gap: 16px;
+    }
+
+    .v58-amenity {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 14px;
+        border-radius: 20px;
+        background: #fbf8f3;
+        border: 1px solid rgba(17, 17, 17, 0.06);
+    }
+
+    .v58-check {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(201, 161, 107, 0.14);
+        color: #9b753e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .v58-amenity strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--v58-dark);
+    }
+
+    .v58-amenity span {
+        color: var(--v58-muted);
+        font-size: 0.92rem;
+    }
+
+    .v58-actions {
+        margin-top: 24px;
+    }
+
+    .v58-section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 22px;
+    }
+
+    .v58-section-heading p {
+        margin: 0;
+        color: var(--v58-muted);
+    }
+
+    .v58-gallery {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    .v58-gallery a {
+        position: relative;
+        display: block;
+        min-height: 220px;
+        border-radius: 26px;
+        overflow: hidden;
+        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.08);
+        background: #ddd;
+    }
+
+    .v58-gallery a:nth-child(1),
+    .v58-gallery a:nth-child(6) {
+        grid-column: span 2;
+        min-height: 300px;
+    }
+
+    .v58-gallery img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        transition: transform 0.45s ease, filter 0.45s ease;
+    }
+
+    .v58-gallery a::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.22));
+        opacity: 0;
+        transition: opacity 0.35s ease;
+    }
+
+    .v58-gallery a:hover img {
+        transform: scale(1.07);
+        filter: saturate(1.06);
+    }
+
+    .v58-gallery a:hover::after {
+        opacity: 1;
+    }
+
+    .v58-location-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 26px 0;
+    }
+
+    .v58-location-list div {
+        padding: 18px;
+        border-radius: 22px;
+        background: #fbf8f3;
+        border: 1px solid rgba(17, 17, 17, 0.06);
+    }
+
+    .v58-location-list strong {
+        display: block;
+        font-size: 1.35rem;
+        color: var(--v58-dark);
+    }
+
+    .v58-location-list span {
+        display: block;
+        color: var(--v58-muted);
+        font-size: 0.9rem;
+        margin-top: 4px;
+    }
+
+    .v58-map-card {
+        padding: 10px;
+        min-height: 420px;
+    }
+
+    .v58-map {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        border: 0;
+        border-radius: 26px;
+        filter: saturate(0.85) contrast(1.05);
+    }
+
+    .v58-cta {
+        position: relative;
+        padding: clamp(34px, 5vw, 56px);
+        border-radius: 36px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+        background:
+            linear-gradient(135deg, rgba(17, 17, 17, 0.94), rgba(45, 34, 22, 0.94)),
+            radial-gradient(circle at top right, rgba(201, 161, 107, 0.38), transparent 36%);
+        color: #fff;
+        overflow: hidden;
+        box-shadow: var(--v58-shadow);
+    }
+
+    .v58-cta::before {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+    }
+
+    .v58-cta .v58-section-kicker {
+        color: var(--v58-gold-light);
+    }
+
+    .v58-cta h2 {
+        color: #fff;
+        max-width: 650px;
+    }
+
+    .v58-cta p {
+        max-width: 680px;
+        margin: 16px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.75;
+    }
+
+    .v58-cta-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 992px) {
+        .v58-grid-2,
+        .v58-intro {
+            grid-template-columns: 1fr;
+        }
+
+        .v58-section-heading,
+        .v58-cta {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .v58-cta-actions {
+            justify-content: flex-start;
+        }
+
+        .v58-gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .v58-gallery a:nth-child(1),
+        .v58-gallery a:nth-child(6) {
+            grid-column: span 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .v58-hero {
+            min-height: auto;
+            padding: 130px 0 70px;
+        }
+
+        .v58-hero-stats {
+            gap: 10px;
+        }
+
+        .v58-hero-stats div {
+            flex: 1 1 120px;
+            min-width: 0;
+        }
+
+        .v58-main {
+            padding: 60px 0;
+        }
+
+        .v58-section {
+            margin-bottom: 60px;
+        }
+
+        .v58-media-card,
+        .v58-carousel {
+            min-height: 380px;
+        }
+
+        .v58-location-list {
+            grid-template-columns: 1fr;
+        }
+
+        .v58-gallery {
+            grid-template-columns: 1fr;
+        }
+
+        .v58-gallery a,
+        .v58-gallery a:nth-child(1),
+        .v58-gallery a:nth-child(6) {
+            min-height: 260px;
+        }
+
+        .v58-btn {
+            width: 100%;
+        }
+
+        .v58-hero-actions,
+        .v58-actions,
+        .v58-cta-actions {
+            width: 100%;
+        }
+    }
+</style>
 
 <script>
   // Mini-carousel sans dépendances
   (function(){
     const track = document.getElementById('v58-track');
     if(!track) return;
+
     const slides = Array.from(track.children);
     let idx = 0;
 
     function update(){
       track.style.transform = `translateX(-${idx * 100}%)`;
       const dots = document.querySelectorAll('#v58-dots .dot');
-      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      dots.forEach((d,i) => d.classList.toggle('active', i === idx));
     }
+
     function buildDots(){
       const bar = document.getElementById('v58-dots');
-      slides.forEach((_,i)=>{
-        const d = document.createElement('div');
-        d.className = 'dot' + (i===0 ? ' active':'');
-        d.addEventListener('click', ()=>{ idx = i; update(); });
+      if (!bar) return;
+
+      bar.innerHTML = '';
+
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Afficher la photo ' + (i + 1));
+        d.addEventListener('click', () => {
+          idx = i;
+          update();
+        });
         bar.appendChild(d);
       });
     }
-    window.v58Next = function(){ idx = (idx + 1) % slides.length; update(); }
-    window.v58Prev = function(){ idx = (idx - 1 + slides.length) % slides.length; update(); }
-    buildDots(); update();
+
+    window.v58Next = function(){
+      idx = (idx + 1) % slides.length;
+      update();
+    }
+
+    window.v58Prev = function(){
+      idx = (idx - 1 + slides.length) % slides.length;
+      update();
+    }
+
+    buildDots();
+    update();
   })();
 </script>
+
 {% endblock %}

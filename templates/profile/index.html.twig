@@ -19,7 +19,7 @@
                     <h4>{{ user.firstname }} {{ user.lastname }}</h4>
                     <p class="text-muted">{{ user.email }}</p>
 
-                    <a href="#" class="btn btn-outline-primary btn-sm">
+                    <a href="{{ path('app_user_profile_edit') }}" class="btn btn-outline-primary btn-sm">
                         Modifier mon profil
                     </a>
                 </div>

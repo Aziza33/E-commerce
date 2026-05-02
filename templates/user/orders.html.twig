@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4">Mes commandes</h1>
+
+    {% if orders is empty %}
+        <div class="alert alert-info">
+            Vous n'avez pas encore passé de commande.
+        </div>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Paiement</th>
+                    <th>Statut</th>
+                    <th>Détail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ order.totalPrice|number_format(2, ',', ' ') }} €</td>
+                        <td>
+                            {% if order.isPaymentCompleted %}
+                                <span class="badge bg-success">Payée</span>
+                            {% elseif order.payOnDelivery %}
+                                <span class="badge bg-warning text-dark">À la livraison</span>
+                            {% else %}
+                                <span class="badge bg-danger">Non payée</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.isCompleted %}
+                                <span class="badge bg-success">Livrée</span>
+                            {% else %}
+                                <span class="badge bg-secondary">En cours</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_user_order_show', { id: order.id }) }}" class="btn btn-sm btn-outline-dark">
+                                Voir
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

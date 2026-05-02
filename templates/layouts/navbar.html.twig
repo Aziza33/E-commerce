@@ -1,5 +1,3 @@
-
-
 {# ................. NAVBAR  ........................... #}
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
     <!-- Logo -->
@@ -20,22 +18,55 @@
 
                 <!-- Menu fixe La Villa -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navHebergement" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navHebergement" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         La Villa Sense
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ path('villa_58')}}">La Villa</a></li>
-                        <li><a class="dropdown-item" href="#">Activités & excursions </a>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Activités</a></li>
-                            <li><a class="dropdown-item" href="#">Excursions</a></li>
-                            <li><a class="dropdown-item" href="#">Bien-être</a></li>
-                            <li><a class="dropdown-item" href="#">Pour les enfants</a></li>
-                          </ul></li>
-                        <li><a class="dropdown-item" href="#">Les options</a></li>
+
+                    <ul class="dropdown-menu" aria-labelledby="navHebergement">
+                        <li>
+                            <a class="dropdown-item" href="{{ path('villa_58') }}">
+                                La Villa
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Activités & excursions
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Activités
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Excursions
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Bien-être
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Pour les enfants
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Les options
+                            </a>
+                        </li>
                     </ul>
                 </li>
-
 
                 <!-- Notre boutique -->
                 {% if categories is defined %}
@@ -44,11 +75,15 @@
                            data-bs-toggle="dropdown" aria-expanded="false">
                             E-shopping
                         </a>
-                        <ul class="dropdown-menu">
+
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
                             {% for category in categories %}
                                 <li>
-                                    <h6 class="dropdown-header">{{ category.name }}</h6>
+                                    <h6 class="dropdown-header">
+                                        {{ category.name }}
+                                    </h6>
                                 </li>
+
                                 {% if category.subCategories|length > 0 %}
                                     {% for subCategory in category.subCategories %}
                                         <li>
@@ -59,8 +94,13 @@
                                         </li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><span class="dropdown-item text-muted">Aucune sous-catégorie</span></li>
+                                    <li>
+                                        <span class="dropdown-item text-muted">
+                                            Aucune sous-catégorie
+                                        </span>
+                                    </li>
                                 {% endif %}
+
                                 {% if not loop.last %}
                                     <li><hr class="dropdown-divider"></li>
                                 {% endif %}
@@ -68,86 +108,161 @@
                         </ul>
                     </li>
                 {% endif %}
-                <!-- My Profile -->
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_profile') }}">
-                            Mon profil
-                        </a>
-                    </li>
 
+                <!-- Espace utilisateur -->
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Mon compte
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_profile') }}">
+                                    Mon profil
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_user_profile_edit') }}">
+                                    Modifier mon profil
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_user_orders') }}">
+                                    Mes commandes
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">
-                            Déconnexion
+                        <a class="nav-link" href="{{ path('app_login') }}">
+                            Connexion
                         </a>
                     </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">
-                                Connexion
-                            </a>
-                        </li>
                 {% endif %}
 
                 <!-- Espace Admin -->
-                {% if is_granted("ROLE_ADMIN") %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-warning" href="#" id="adminDropdown" role="button"
-                           data-bs-toggle="dropdown">
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
                         </a>
-                        <ul class="dropdown-menu">
-                        {% if is_granted("ROLE_EDITOR") %}
-                          <li><a class="dropdown-item" href="#">Commandes</a></li>
-                          <li><a class="dropdown-item" href="{{ path('app_orders_show', {'type':'pay-on-stripe-not-delivered'})}}">Commandes livrées</a></li>                  
-                          <li><a class="dropdown-item" href="#">Commandes payées</a></li> 
-                        {% endif %}
-                                           
 
-                          <li><hr class="dropdown-divider"></li>
+                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                            {% if is_granted('ROLE_EDITOR') %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_orders_show', {'type': 'all'}) }}">
+                                        Toutes les commandes
+                                    </a>
+                                </li>
 
-                            <li><a class="dropdown-item" href="{{ path('app_category') }}">Catégories</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_category_new') }}">Ajouter une catégorie</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_orders_show', {'type': 'pay-on-stripe-not-delivered'}) }}">
+                                        Commandes payées non livrées
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('app_orders_show', {'type': 'is-completed'}) }}">
+                                        Commandes livrées
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_category') }}">
+                                    Catégories
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_category_new') }}">
+                                    Ajouter une catégorie
+                                </a>
+                            </li>
+
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_sub_category_index') }}">Sous-catégories</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_sub_category_new') }}">Ajouter une sous-catégorie</a></li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_sub_category_index') }}">
+                                    Sous-catégories
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_sub_category_new') }}">
+                                    Ajouter une sous-catégorie
+                                </a>
+                            </li>
+
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Produits</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_product_index') }}">
+                                    Produits
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_product_new') }}">
+                                    Ajouter un produit
+                                </a>
+                            </li>
+
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
-                          
+
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_user') }}">
+                                    Utilisateurs
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 {% endif %}
             </ul>
 
-            <!-- Connexion / Déconnexion + Lien panier -->
+            <!-- Bonjour utilisateur -->
             <div class="d-flex align-items-center gap-3 me-3">
                 {% if app.user %}
-                    <span class="text-white small">Bonjour, {{ app.user.firstname ?? app.user.lastname }}</span>
-                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light btn-sm">Déconnexion</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
+                    <span class="text-white small">
+                        Bonjour,
+                        {{ app.user.firstName ?? app.user.lastName ?? app.user.email }}
+                    </span>
                 {% endif %}
-
-
             </div>
 
             <!-- Barre de recherche -->
-            <form class="d-flex" role="search" action="{{ path('app_search_engine') }}" method="post">
+            <form class="d-flex me-3" role="search" action="{{ path('app_search_engine') }}" method="post">
                 <input class="form-control me-2" type="search" name="word" placeholder="Rechercher..." aria-label="Search">
-                <button class="btn btn-outline-light" type="submit" data-turbo='false'>Rechercher</button>
+                <button class="btn btn-outline-light" type="submit" data-turbo="false">
+                    Rechercher
+                </button>
             </form>
-                <!-- Lien discret vers le panier -->
-                <a href="{{ path('app_cart') }}" class="panierNav text-danger text-decoration-none position-relative big">
-                    🛒 
-                    {% if app.session and app.session.get('cart') is not empty %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ app.session.get('cart')|length }}
-                        </span>
-                    {% endif %}
-                </a>
+
+            <!-- Panier -->
+            <a href="{{ path('app_cart') }}" class="panierNav text-danger text-decoration-none position-relative big">
+                🛒
+                {% if app.session and app.session.get('cart') is not empty %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ app.session.get('cart')|length }}
+                    </span>
+                {% endif %}
+            </a>
         </div>
     </div>
 </nav>

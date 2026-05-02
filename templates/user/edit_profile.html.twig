@@ -1,0 +1,338 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+<div class="profile-edit-page py-5">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8">
+
+                <div class="profile-edit-header text-center mb-4">
+                    <h1 class="mb-2">Modifier mon profil</h1>
+                    <p class="text-muted mb-0">
+                        Mettez à jour vos informations personnelles et votre mot de passe.
+                    </p>
+                </div>
+
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label == 'success' ? 'success' : label }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {{ form_start(form, {
+                    attr: {
+                        class: 'profile-edit-form',
+                        novalidate: 'novalidate'
+                    }
+                }) }}
+
+                    {{ form_errors(form) }}
+
+                    <div class="card border-0 shadow-lg rounded-4 mb-4">
+                        <div class="card-body p-4 p-md-5">
+
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="profile-icon me-3">
+                                    👤
+                                </div>
+                                <div>
+                                    <h4 class="mb-0">Informations personnelles</h4>
+                                    <small class="text-muted">Ces informations seront utilisées pour vos commandes.</small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.firstName) }}
+                                    {{ form_widget(form.firstName) }}
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.firstName) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.lastName) }}
+                                    {{ form_widget(form.lastName) }}
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.lastName) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(form.email) }}
+                                {{ form_widget(form.email) }}
+                                <div class="text-danger small mt-1">
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(form.phoneNumber) }}
+                                {{ form_widget(form.phoneNumber) }}
+                                <div class="text-danger small mt-1">
+                                    {{ form_errors(form.phoneNumber) }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(form.address) }}
+                                {{ form_widget(form.address) }}
+                                <div class="text-danger small mt-1">
+                                    {{ form_errors(form.address) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.city) }}
+                                    {{ form_widget(form.city) }}
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.city) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.zipCode) }}
+                                    {{ form_widget(form.zipCode) }}
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.zipCode) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-lg rounded-4 mb-4">
+                        <div class="card-body p-4 p-md-5">
+
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="profile-icon me-3">
+                                    🔒
+                                </div>
+                                <div>
+                                    <h4 class="mb-0">Mot de passe</h4>
+                                    <small class="text-muted">
+                                        Laissez les champs vides si vous ne souhaitez pas le modifier.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="text-danger small mb-3">
+                                {{ form_errors(form.plainPassword) }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.plainPassword.first) }}
+
+                                    <div class="input-group">
+                                        {{ form_widget(form.plainPassword.first) }}
+
+                                        <button class="btn btn-outline-secondary toggle-password" type="button" aria-label="Afficher le mot de passe">
+                                            <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
+                                                <circle cx="12" cy="12" r="3"/>
+                                            </svg>
+
+                                            <svg class="icon-eye-off d-none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M10.6 10.6A2.9 2.9 0 0 0 9 13a3 3 0 0 0 4.4 2.7"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M6.4 6.4C3.7 8.2 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1.1"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9.9 5.3A10 10 0 0 1 12 5c6.5 0 10 7 10 7a15.8 15.8 0 0 1-2.3 3.2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.plainPassword.first) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    {{ form_label(form.plainPassword.second) }}
+
+                                    <div class="input-group">
+                                        {{ form_widget(form.plainPassword.second) }}
+
+                                        <button class="btn btn-outline-secondary toggle-password" type="button" aria-label="Afficher le mot de passe">
+                                            <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
+                                                <circle cx="12" cy="12" r="3"/>
+                                            </svg>
+
+                                            <svg class="icon-eye-off d-none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M10.6 10.6A2.9 2.9 0 0 0 9 13a3 3 0 0 0 4.4 2.7"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M6.4 6.4C3.7 8.2 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1.1"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9.9 5.3A10 10 0 0 1 12 5c6.5 0 10 7 10 7a15.8 15.8 0 0 1-2.3 3.2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form_errors(form.plainPassword.second) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                        <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary px-4">
+                            Annuler
+                        </a>
+
+                        <button type="submit" class="btn btn-dark px-5">
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .profile-edit-page {
+        min-height: 100vh;
+        padding-top: 120px !important;
+        background:
+            linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+            radial-gradient(circle at top left, rgba(198, 169, 105, 0.22), transparent 35%),
+            radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.08), transparent 30%);
+    }
+
+    .profile-edit-header h1 {
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .profile-edit-form .card {
+        overflow: hidden;
+    }
+
+    .profile-edit-form label {
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+        color: #333;
+    }
+
+    .profile-edit-form .form-control,
+    .profile-edit-form .form-select {
+        border-radius: 12px;
+        min-height: 48px;
+        border: 1px solid #ddd;
+    }
+
+    .profile-edit-form .form-control:focus,
+    .profile-edit-form .form-select:focus {
+        border-color: #c6a969;
+        box-shadow: 0 0 0 0.2rem rgba(198, 169, 105, 0.18);
+    }
+
+    .profile-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #111;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .input-group .form-control {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .input-group .btn {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .btn-dark {
+        border-radius: 999px;
+        min-height: 46px;
+        font-weight: 600;
+    }
+
+    .btn-outline-secondary {
+        border-radius: 999px;
+        min-height: 46px;
+        font-weight: 600;
+    }
+
+    .alert {
+        border-radius: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .profile-edit-page {
+            padding-top: 100px !important;
+        }
+
+        .card-body {
+            padding: 1.5rem !important;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.toggle-password');
+
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const inputGroup = button.closest('.input-group');
+                const input = inputGroup ? inputGroup.querySelector('input') : null;
+
+                const iconEye = button.querySelector('.icon-eye');
+                const iconEyeOff = button.querySelector('.icon-eye-off');
+
+                if (!input || !iconEye || !iconEyeOff) {
+                    return;
+                }
+
+                const isHidden = input.type === 'password';
+
+                input.type = isHidden ? 'text' : 'password';
+
+                iconEye.classList.toggle('d-none', isHidden);
+                iconEyeOff.classList.toggle('d-none', !isHidden);
+
+                button.setAttribute(
+                    'aria-label',
+                    isHidden ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
+                );
+            });
+        });
+    });
+</script>
+{% endblock %}
