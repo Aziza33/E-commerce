@@ -17,7 +17,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1 class="hero-title">Villa Sense</h1>
-        <h1 class="hero-title">Prolongez l'expérience</h1>
+        <h1 class="hero-title2">Prolongez l'expérience</h1>
         
         {# <p class="hero-subtitle">Prolongez l'expérience depuis chez vous</p> #}
         {# <a href="#products" class="btn btn-light btn-lg" style="border-radius: 50px; padding: 10px 25px; font-weight: bold;">
@@ -58,16 +58,25 @@
     </div>
 </section>
 <!-- Produits -->
-<div id="products" class="container container-premium mt-5">
-    <h2 class="mb-5 text-center fw-bold" style="font-family: 'Playfair Display', serif;">Nos Produits</h2>
+<section id="products" class="products-section">
+    <div class="container container-premium">
+        <div class="products-heading text-center">
+            <span class="products-kicker">E-shopping</span>
+            <h2>Nos Produits</h2>
+            <p>Une sélection raffinée inspirée de l’art de vivre marocain.</p>
+        </div>
 
-    <div class="row g-4">
-        {% for product in products %}
-            {{  include("product/_product_template.html.twig")  }}
-        {% else %}
-            <p class="text-center">Aucun produit disponible.</p>
-        {% endfor %}
+        <div class="row g-4">
+            {% for product in products %}
+                {{ include("product/_product_template.html.twig") }}
+            {% else %}
+                <p class="text-center .stock">Aucun produit disponible.</p>
+            {% endfor %}
+        </div>
+
+        <div class="mt-5">
+            {{ knp_pagination_render(products, 'layouts/paginator.html.twig') }}
+        </div>
     </div>
-    {{ knp_pagination_render(products, 'layouts/paginator.html.twig') }}
-</div>
+</section>
 {% endblock %}

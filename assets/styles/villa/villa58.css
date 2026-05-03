@@ -115,6 +115,5 @@
 /* Utilitaire pour teinter des icônes via currentColor */
 .brand{color:var(--brand)}
 
-body {
-    background-color: red;
-}
+/* nouveau style */
+
